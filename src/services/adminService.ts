@@ -31,6 +31,48 @@ export interface ApplicationStats {
 }
 
 export const adminService = {
+  async fetchApplications(params: {
+    status?: 'pending' | 'approved' | 'rejected' | 'under_review' | 'all';
+    search?: string;
+    district?: string;
+    fromDate?: string; // ISO datetime
+    toDate?: string;   // ISO datetime
+    page?: number;
+    pageSize?: number;
+  } = {}): Promise<{ data: MembershipApplication[]; count: number }> {
+    const {
+      status = 'all',
+      search,
+      district,
+      fromDate,
+      toDate,
+      page = 1,
+      pageSize = 20,
+    } = params;
+
+    let query = supabase
+      .from('membership_applications')
+      .select('*', { count: 'exact' });
+
+    if (status && status !== 'all') query = query.eq('application_status', status);
+    if (district && district.trim()) query = query.eq('revenue_district', district.trim());
+    if (fromDate) query = query.gte('submitted_at', fromDate);
+    if (toDate) query = query.lte('submitted_at', toDate);
+    if (search && search.trim()) {
+      const s = search.trim();
+      query = query.or(`name.ilike.%${s}%,phone_number.ilike.%${s}%,email.ilike.%${s}%`);
+    }
+
+    query = query.order('submitted_at', { ascending: false });
+
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    query = query.range(from, to);
+
+    const { data, error, count } = await query;
+    if (error) throw new Error(error.message);
+    return { data: data || [], count: count || 0 };
+  },
   async getAllApplications(): Promise<MembershipApplication[]> {
     const { data, error } = await supabase
       .from('membership_applications')
@@ -87,7 +129,7 @@ export const adminService = {
   ): Promise<void> {
     const { error } = await supabase
       .from('membership_applications')
-      .update({ application_status: status })
+      .update({ application_status: status, updated_at: new Date().toISOString() })
       .eq('id', id);
 
     if (error) {
