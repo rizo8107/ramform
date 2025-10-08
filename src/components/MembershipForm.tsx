@@ -224,9 +224,11 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
             {/* Leaders Banner */}
             <div className="mb-6">
               <img 
-                src="/Leaders banner.png" 
+                src="/Leaders banner.webp" 
                 alt="AIADMK Leaders" 
                 className="h-48 w-auto mx-auto object-contain"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             
@@ -236,6 +238,8 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                 src="/LOGO amdmk.webp" 
                 alt="AIADMK Logo" 
                 className="h-50 w-auto mx-auto object-contain"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             
@@ -490,24 +494,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
             </form>
           </div>
 
-          {/* Footer */}
-          <div className="mt-8 text-center">
-            <div className="flex justify-center space-x-6 mb-4">
-              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                <div className="w-6 h-6 bg-gray-400 rounded"></div>
-              </div>
-              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                <div className="w-6 h-6 bg-gray-400 rounded"></div>
-              </div>
-              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                <div className="w-6 h-6 bg-gray-400 rounded"></div>
-              </div>
-              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                <div className="w-6 h-6 bg-gray-400 rounded"></div>
-              </div>
-            </div>
-            <p className="text-sm text-gray-500">© 2025 AIADMK. All rights reserved.</p>
-          </div>
+          {/* Footer removed: using global footer from App.tsx */}
         </div>
       </div>
     </div>

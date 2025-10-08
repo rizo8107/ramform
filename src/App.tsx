@@ -24,10 +24,7 @@ function App() {
       <footer className="mt-8 bg-white/70 backdrop-blur border-t border-slate-200">
         <div className="max-w-5xl mx-auto px-4 py-6 text-center text-sm text-slate-600">
           <p>
-            © {new Date().getFullYear()} AIADMK. All rights reserved.
-          </p>
-          <p className="mt-1">
-            For support, contact <a href="mailto:support@aiadmk.example" className="underline">support@aiadmk.example</a>
+            © {new Date().getFullYear()} AIADMK Student Wing. All rights reserved.
           </p>
         </div>
       </footer>

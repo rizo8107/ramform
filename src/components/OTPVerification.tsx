@@ -49,7 +49,7 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
       } else {
         setError(result.error || 'Failed to send OTP');
       }
-    } catch (err) {
+    } catch (_err) {
       setError('Network error. Please try again.');
     } finally {
       setIsSendingOTP(false);
@@ -70,7 +70,7 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
         setError(result.error || t.invalidOTP);
         setOtp('');
       }
-    } catch (err) {
+    } catch (_err) {
       setError('Verification failed. Please try again.');
       setOtp('');
     } finally {
@@ -97,9 +97,12 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
             {/* Leaders Banner */}
             <div className="mb-0.1">
               <img 
-                src="/Leaders banner.png" 
+                src="/Leaders banner.webp" 
                 alt="AIADMK Leaders" 
                 className="h-48 w-auto mx-auto object-contain"
+                loading="lazy"
+                decoding="async"
+                height={192}
               />
             </div>
             
@@ -109,12 +112,12 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
                 src="/LOGO amdmk.webp" 
                 alt="AIADMK Logo" 
                 className="h-50 w-auto mx-auto object-contain"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             
-            <div className="inline-block bg-green-100 text-green-700 px-6 py-2 rounded-full text-sm font-medium mb-1">
-              {t.joinMovement}
-            </div>
+            {/* Badge removed */}
             <h1 className="text-3xl font-bold text-gray-900 mb-4">
               Become a Member of <span className="text-green-600">AIADMK</span>
             </h1>
