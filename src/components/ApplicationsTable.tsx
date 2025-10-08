@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Eye, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { MembershipApplication } from '../services/adminService';
 import { adminService } from '../services/adminService';
 
@@ -10,34 +10,6 @@ interface ApplicationsTableProps {
 
 export default function ApplicationsTable({ applications, onStatusUpdate }: ApplicationsTableProps) {
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
-  const [updatingId, setUpdatingId] = useState<string | null>(null);
-
-  const handleStatusUpdate = async (id: string, status: 'pending' | 'approved' | 'rejected' | 'under_review') => {
-    setUpdatingId(id);
-    try {
-      await adminService.updateApplicationStatus(id, status);
-      onStatusUpdate();
-    } catch (error) {
-      alert('Failed to update status');
-    } finally {
-      setUpdatingId(null);
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    const styles = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      approved: 'bg-green-100 text-green-800',
-      rejected: 'bg-red-100 text-red-800',
-      under_review: 'bg-blue-100 text-blue-800',
-    };
-
-    return (
-      <span className={`px-3 py-1 rounded-full text-xs font-medium ${styles[status as keyof typeof styles] || styles.pending}`}>
-        {status.replace('_', ' ').toUpperCase()}
-      </span>
-    );
-  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-IN', {
@@ -65,13 +37,10 @@ export default function ApplicationsTable({ applications, onStatusUpdate }: Appl
                 District
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
                 Submitted
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                Actions
+                Details
               </th>
             </tr>
           </thead>
@@ -88,9 +57,6 @@ export default function ApplicationsTable({ applications, onStatusUpdate }: Appl
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900">
                     {app.revenue_district}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {getStatusBadge(app.application_status)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                     {formatDate(app.submitted_at)}
@@ -110,7 +76,7 @@ export default function ApplicationsTable({ applications, onStatusUpdate }: Appl
                 </tr>
                 {expandedRow === app.id && (
                   <tr>
-                    <td colSpan={6} className="px-6 py-4 bg-slate-50">
+                    <td colSpan={5} className="px-6 py-4 bg-slate-50">
                       <div className="space-y-4">
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                           <div>
@@ -153,50 +119,7 @@ export default function ApplicationsTable({ applications, onStatusUpdate }: Appl
                           <p className="text-sm text-slate-900 mt-1">{app.motivation}</p>
                         </div>
 
-                        <div className="flex flex-wrap gap-2">
-                          {app.is_already_member && (
-                            <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
-                              Already Member
-                            </span>
-                          )}
-                          {app.want_to_volunteer && (
-                            <span className="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                              Wants to Volunteer
-                            </span>
-                          )}
-                          {app.want_to_join_and_volunteer && (
-                            <span className="px-3 py-1 bg-slate-100 text-slate-800 text-xs font-medium rounded-full">
-                              Join & Volunteer
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="flex gap-2 pt-2">
-                          <button
-                            onClick={() => handleStatusUpdate(app.id, 'approved')}
-                            disabled={updatingId === app.id}
-                            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors disabled:bg-slate-400"
-                          >
-                            <CheckCircle className="w-4 h-4" />
-                            Approve
-                          </button>
-                          <button
-                            onClick={() => handleStatusUpdate(app.id, 'under_review')}
-                            disabled={updatingId === app.id}
-                            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:bg-slate-400"
-                          >
-                            <Clock className="w-4 h-4" />
-                            Under Review
-                          </button>
-                          <button
-                            onClick={() => handleStatusUpdate(app.id, 'rejected')}
-                            disabled={updatingId === app.id}
-                            className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors disabled:bg-slate-400"
-                          >
-                            <XCircle className="w-4 h-4" />
-                            Reject
-                          </button>
-                        </div>
+                        {/* Status badges and action buttons removed as requested */}
                       </div>
                     </td>
                   </tr>

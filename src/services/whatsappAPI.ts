@@ -41,8 +41,12 @@ class WhatsAppService {
       webhookVerifyToken: import.meta.env.VITE_WHATSAPP_WEBHOOK_VERIFY_TOKEN || ''
     };
     
-    // Debug log to check what phone number ID is being used
-    console.log('WhatsApp Phone Number ID:', this.config.phoneNumberId);
+    // Avoid logging any sensitive identifiers in the browser console
+    // If needed for debugging, log only that credentials are present
+    if (import.meta.env.DEV) {
+      const hasCreds = Boolean(this.config.accessToken && this.config.phoneNumberId);
+      console.log('WhatsApp config loaded:', hasCreds ? 'present' : 'missing');
+    }
   }
 
   // Generate a random 6-digit OTP
@@ -131,14 +135,13 @@ class WhatsAppService {
         }
         
         return { 
-          success: false, 
+          success: false,
           error: errorMessage 
         };
       }
 
       const successResponse = responseData as SendMessageResponse;
-      console.log('WhatsApp OTP sent successfully:', successResponse);
-
+      
       return {
         success: true,
         messageId: successResponse.messages[0]?.id

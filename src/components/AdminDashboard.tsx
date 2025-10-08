@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   Users,
-  Clock,
-  CheckCircle,
-  XCircle,
   FileText,
   LogOut,
   Search,
@@ -153,41 +150,13 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <div className="grid grid-cols-1 gap-6 mb-8">
           <StatsCard
             title="Total Applications"
             value={stats.total}
             icon={FileText}
             bgColor="bg-slate-100"
             iconColor="text-slate-600"
-          />
-          <StatsCard
-            title="Pending"
-            value={stats.pending}
-            icon={Clock}
-            bgColor="bg-yellow-100"
-            iconColor="text-yellow-600"
-          />
-          <StatsCard
-            title="Under Review"
-            value={stats.under_review}
-            icon={FileText}
-            bgColor="bg-blue-100"
-            iconColor="text-blue-600"
-          />
-          <StatsCard
-            title="Approved"
-            value={stats.approved}
-            icon={CheckCircle}
-            bgColor="bg-green-100"
-            iconColor="text-green-600"
-          />
-          <StatsCard
-            title="Rejected"
-            value={stats.rejected}
-            icon={XCircle}
-            bgColor="bg-red-100"
-            iconColor="text-red-600"
           />
         </div>
 

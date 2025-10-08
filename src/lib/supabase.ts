@@ -19,7 +19,7 @@ export interface MembershipApplication {
   date_of_birth: string;
   revenue_district: string;
   assembly_constituency: string;
-  education: 'No Education' | '10th' | '12th' | 'UG' | 'PG';
+  education: 'Arts & Science' | 'Engineering' | 'Law' | 'Medicine' | 'Management';
   specialization?: string;
   occupation: string;
   address?: string;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Calendar, MapPin, User, Mail, Phone, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import LanguageToggle from './LanguageToggle';
-import OTPVerification from './OTPVerification';
 import TwoLeavesLogo from './TwoLeavesLogo';
 import { translations, Language } from '../utils/translations';
 import { membershipService } from '../services/membershipService';
@@ -103,7 +102,6 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [duplicateError, setDuplicateError] = useState('');
   const [language, setLanguage] = useState<Language>('en');
 
   const t = translations[language];
@@ -122,8 +120,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
         ...prev,
         [name]: value,
         // Reset dependent fields
-        ...(name === 'revenueDistrict' ? { assemblyConstituency: '' } : {}),
-        ...(name === 'education' && !['UG', 'PG'].includes(value) ? { specialization: '' } : {})
+        ...(name === 'revenueDistrict' ? { assemblyConstituency: '' } : {})
       }));
     }
   };
@@ -131,7 +128,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setDuplicateError('');
+    // clear previous errors shown via alert only
     
     try {
       // Check if phone number already exists
@@ -140,7 +137,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
         const errorMessage = language === 'en' 
           ? 'You have already registered with this phone number.'
           : 'இந்த தொலைபேசி எண்ணுடன் நீங்கள் ஏற்கனவே பதிவு செய்துள்ளீர்கள்.';
-        setDuplicateError(errorMessage);
+        alert(errorMessage);
         setIsSubmitting(false);
         return;
       }
@@ -154,7 +151,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
         date_of_birth: formData.dateOfBirth,
         revenue_district: formData.revenueDistrict,
         assembly_constituency: formData.assemblyConstituency,
-        education: formData.education as 'No Education' | '10th' | '12th' | 'UG' | 'PG',
+        education: formData.education as MembershipApplication['education'],
         specialization: formData.specialization || undefined,
         occupation: formData.occupation,
         address: formData.address || undefined,
@@ -242,9 +239,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
               />
             </div>
             
-            <div className="inline-block bg-green-100 text-green-700 px-6 py-2 rounded-full text-sm font-medium mb-6">
-              {t.joinMovement}
-            </div>
+            {/* Badge removed */}
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Become a Member of <span className="text-green-600">AIADMK</span>
             </h1>
@@ -397,34 +392,14 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                     required
                   >
                     <option value="">{t.selectEducation}</option>
-                    <option value="No Education">No Education</option>
-                    <option value="10th">{t.grade10}</option>
-                    <option value="12th">{t.grade12}</option>
-                    <option value="UG">{t.ug}</option>
-                    <option value="PG">{t.pg}</option>
+                    <option value="Arts & Science">{t.educationArtsScience}</option>
+                    <option value="Engineering">{t.educationEngineering}</option>
+                    <option value="Law">{t.educationLaw}</option>
+                    <option value="Medicine">{t.educationMedicine}</option>
+                    <option value="Management">{t.educationManagement}</option>
                   </select>
                 </div>
-
-                {['UG', 'PG'].includes(formData.education) && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t.specialization}
-                    </label>
-                    <select
-                      name="specialization"
-                      value={formData.specialization}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    >
-                      <option value="">{t.selectSpecialization}</option>
-                      <option value="Doctor">{t.doctor}</option>
-                      <option value="Engineer">{t.engineer}</option>
-                      <option value="Arts & Science">{t.artsScience}</option>
-                      <option value="Management">{t.management}</option>
-                      <option value="Others">{t.others}</option>
-                    </select>
-                  </div>
-                )}
+                {/* Removed specialization field per new requirement */}
               </div>
 
               {/* Occupation */}
@@ -445,7 +420,6 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                   <option value="Government">{t.governmentEmployed}</option>
                   <option value="Self Employed">{t.selfEmployed}</option>
                   <option value="Business">{t.business}</option>
-                  <option value="Lawyer">Lawyer</option>
                   <option value="Home Maker">{t.homeMaker}</option>
                 </select>
               </div>
