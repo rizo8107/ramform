@@ -9,6 +9,21 @@ ARG VITE_WHATSAPP_PHONE_NUMBER_ID
 ARG VITE_WHATSAPP_BUSINESS_ACCOUNT_ID
 ARG VITE_WHATSAPP_ACCESS_TOKEN
 
+# Native/CLI build deps for packages like gifsicle/imagemin
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    autoconf \
+    automake \
+    libtool \
+    nasm \
+    pkgconfig \
+    bash \
+    git \
+    gifsicle \
+    libc6-compat
+
 COPY package*.json ./
 # Use npm ci when package-lock.json is present; otherwise fallback to npm install
 RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
