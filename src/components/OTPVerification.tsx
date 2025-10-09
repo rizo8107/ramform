@@ -119,7 +119,7 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
             
             {/* Badge removed */}
             <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Become a Member of <span className="text-green-600">AIADMK</span>
+              {t.becomeAMember}
             </h1>
             <p className="text-gray-600 text-lg leading-relaxed mb-8">
               {t.joinDescription}

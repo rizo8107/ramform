@@ -24,7 +24,7 @@ function App() {
       <footer className="mt-8 bg-white/70 backdrop-blur border-t border-slate-200">
         <div className="max-w-5xl mx-auto px-4 py-6 text-center text-sm text-slate-600">
           <p>
-            © {new Date().getFullYear()} AIADMK Student Wing. All rights reserved.
+            © {new Date().getFullYear()} AIADMK Students Wing. All rights reserved.
           </p>
         </div>
       </footer>

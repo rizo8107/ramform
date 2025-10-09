@@ -16,7 +16,7 @@ export const translations = {
     changePhoneNumber: 'Change Phone Number',
     
     // Form Header
-    becomeAMember: 'Become a Member of AIADMK',
+    becomeAMember: 'Join the movement',
     joinDescription: "Be the change you want to see! Join the movement that's rewriting the future of Tamil Nadu's politics. Your contribution will spark a revolution against dynastic rule, paving the way for a new era of progress and transparency. \n\nLet's shape the future together - join us and be part of history!",
     joinMovementToday: 'Join the Movement Today',
     
@@ -74,7 +74,7 @@ export const translations = {
     
     // Success
     applicationSubmitted: 'Application Submitted!',
-    thankYou: 'Thank you for joining our movement. You will be contacted soon.',
+    thankYou: "Thank you for joining the fight against dynastic politics. Together, let's build a better tomorrow. Our team will get in touch with you soon!",
     
     // Terms
     agreeTerms: 'I agree to the terms and conditions and privacy policy. I confirm that all provided information is accurate.',
@@ -110,7 +110,6 @@ export const translations = {
     changePhoneNumber: 'தொலைபேசி எண்ணை மாற்றவும்',
     
     // Form Header
-    joinMovement: 'எங்கள் இயக்கத்தில் சேருங்கள்',
     becomeAMember: 'அ.இ.அ.த.மு.க வில் உறுப்பினராகுங்கள்',
     joinDescription: "நீங்கள் காண விரும்பும் மாற்றமாக நீங்களே இருங்கள்! தமிழ்நாட்டின் அரசியலின் எதிர்காலத்தை மறுபரிணமிப்பதற்கான இயக்கத்தில் இணைக. உங்கள் பங்களிப்பு வாரிசுராஜியத்துக்கு எதிரான புரட்சிக்கு தீப்பெட்டி ஆகும்; வெளிப்படைத் தன்மையும் முன்னேற்றமும் நிறைந்த புதிய காலத்திற்கான பாதையைத் திறக்கும்.\n\nநாம் ஒன்றாக எதிர்காலத்தை வடிவமைப்போம் – இன்றே இணைந்து வரலாற்றின் ஒரு பகுதியாகுங்கள்!",
     joinMovementToday: 'இன்றே இயக்கத்தில் சேருங்கள்',

@@ -245,7 +245,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
             
             {/* Badge removed */}
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Become a Member of <span className="text-green-600">AIADMK</span>
+            Join the <span className="text-green-600">Movement</span>
             </h1>
             <p className="text-gray-600 text-lg leading-relaxed mb-8 max-w-xl mx-auto">
               {t.joinDescription}
