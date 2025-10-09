@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20-alpine as build
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -10,7 +10,8 @@ ARG VITE_WHATSAPP_BUSINESS_ACCOUNT_ID
 ARG VITE_WHATSAPP_ACCESS_TOKEN
 
 COPY package*.json ./
-RUN npm ci
+# Use npm ci when package-lock.json is present; otherwise fallback to npm install
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
 COPY . .
 
