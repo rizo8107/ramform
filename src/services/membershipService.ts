@@ -100,10 +100,9 @@ class MembershipService {
         .from('membership_applications')
         .select('id')
         .eq('phone_number', applicationData.phone_number)
-        .single();
+        .maybeSingle();
 
-      // Handle the case where no record exists (PGRST116 is expected for new applications)
-      if (checkError && checkError.code !== 'PGRST116') {
+      if (checkError) {
         console.error('Error checking existing application:', checkError);
         return { success: false, error: checkError.message };
       }

@@ -211,6 +211,69 @@ class WhatsAppService {
       };
     }
   }
+
+  // Send approved welcome template with video header
+  async sendWelcomeTemplateWithVideo(
+    phoneNumber: string,
+    videoUrl: string,
+    options?: { templateName?: string; languageCode?: string }
+  ): Promise<{ success: boolean; messageId?: string; error?: string }> {
+    try {
+      if (!this.config.accessToken || !this.config.phoneNumberId) {
+        return { success: false, error: 'WhatsApp API credentials not configured.' };
+      }
+
+      const templateName = options?.templateName || 'welcome_message';
+      const languageCode = options?.languageCode || 'en_US';
+
+      const cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
+      const formattedPhoneNumber = cleanPhoneNumber.startsWith('91') ? cleanPhoneNumber : `91${cleanPhoneNumber}`;
+
+      const messageData = {
+        messaging_product: 'whatsapp',
+        to: formattedPhoneNumber,
+        type: 'template',
+        template: {
+          name: templateName,
+          language: { code: languageCode },
+          components: [
+            {
+              type: 'header',
+              parameters: [
+                {
+                  type: 'video',
+                  video: { link: videoUrl }
+                }
+              ]
+            }
+          ]
+        }
+      };
+
+      const response = await fetch(`${this.baseUrl}/${this.config.phoneNumberId}/messages`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${this.config.accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(messageData)
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        const error = responseData as WhatsAppError;
+        console.error('WhatsApp API Error (welcome template):', error);
+        return { success: false, error: error.error?.message || 'Failed to send WhatsApp template' };
+      }
+
+      const successResponse = responseData as SendMessageResponse;
+      return { success: true, messageId: successResponse.messages[0]?.id };
+    } catch (error) {
+      console.error('Error sending WhatsApp template with video:', error);
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error occurred' };
+    }
+  }
 }
 
 export const whatsappService = new WhatsAppService();

@@ -3,6 +3,7 @@ import { Check } from 'lucide-react';
 import LanguageToggle from './LanguageToggle';
 import TwoLeavesLogo from './TwoLeavesLogo';
 import { translations, Language } from '../utils/translations';
+import { whatsappService } from '../services/whatsappAPI';
 import { membershipService } from '../services/membershipService';
 import { MembershipApplication } from '../lib/supabase';
 
@@ -143,8 +144,11 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
       }
 
       // Prepare application data
+      // Normalize phone to match OTP records (always with 91 prefix)
+      const cleanPhone = phoneNumber.replace(/\D/g, '');
+      const formattedPhone = cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`;
       const applicationData: Omit<MembershipApplication, 'id' | 'submitted_at' | 'updated_at'> = {
-        phone_number: phoneNumber,
+        phone_number: formattedPhone,
         name: formData.name,
         email: formData.email || undefined,
         gender: formData.gender as 'Male' | 'Female',
@@ -166,6 +170,14 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
       
       if (result.success) {
         console.log('Application submitted successfully:', result.applicationId);
+        // Fire-and-forget: send WhatsApp welcome template with video header
+        // Template name: 'welcome_message' (default), language: en_US
+        // Provided video link by user
+        const videoUrl = 'https://backend-filegator.pn8thx.easypanel.host/?r=/download&path=L0NhbXBhaWduIFZpZGVvIC0gMDEgKDEpLm1wNA%3D%3D';
+        void whatsappService.sendWelcomeTemplateWithVideo(phoneNumber, videoUrl, {
+          templateName: 'welcome_message',
+          languageCode: 'en'
+        });
         setIsSubmitted(true);
       } else {
         console.error('Application submission failed:', result.error);
