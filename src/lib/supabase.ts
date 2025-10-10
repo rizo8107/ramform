@@ -13,6 +13,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export interface MembershipApplication {
   id?: string;
   phone_number: string;
+  alternate_phone_number?: string;
   name: string;
   email?: string;
   gender: 'Male' | 'Female';

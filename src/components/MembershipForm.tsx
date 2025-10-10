@@ -14,6 +14,7 @@ interface MembershipFormProps {
 interface FormData {
   name: string;
   whatsapp: string;
+  alternatePhone: string;
   email: string;
   gender: string;
   dateOfBirth: string;
@@ -85,6 +86,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     whatsapp: '',
+    alternatePhone: '',
     email: '',
     gender: '',
     dateOfBirth: '',
@@ -104,6 +106,8 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [language, setLanguage] = useState<Language>('en');
+  // Toggle to enable/disable WhatsApp welcome message after submission
+  const ENABLE_WHATSAPP_WELCOME = false;
 
   const t = translations[language];
 
@@ -117,9 +121,14 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
         [name]: checked
       }));
     } else {
+      // Sanitize numeric-only fields
+      const nextValue = name === 'alternatePhone'
+        ? value.replace(/\D/g, '').slice(0, 10)
+        : value;
+
       setFormData(prev => ({
         ...prev,
-        [name]: value,
+        [name]: nextValue,
         // Reset dependent fields
         ...(name === 'revenueDistrict' ? { assemblyConstituency: '' } : {})
       }));
@@ -149,6 +158,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
       const formattedPhone = cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`;
       const applicationData: Omit<MembershipApplication, 'id' | 'submitted_at' | 'updated_at'> = {
         phone_number: formattedPhone,
+        alternate_phone_number: formData.alternatePhone ? formData.alternatePhone.replace(/\D/g, '') : undefined,
         name: formData.name,
         email: formData.email || undefined,
         gender: formData.gender as 'Male' | 'Female',
@@ -170,14 +180,32 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
       
       if (result.success) {
         console.log('Application submitted successfully:', result.applicationId);
-        // Fire-and-forget: send WhatsApp welcome template with video header
-        // Template name: 'welcome_message' (default), language: en_US
-        // Provided video link by user
-        const videoUrl = 'https://backend-filegator.pn8thx.easypanel.host/?r=/download&path=L0NhbXBhaWduIFZpZGVvIC0gMDEgKDEpLm1wNA%3D%3D';
-        void whatsappService.sendWelcomeTemplateWithVideo(phoneNumber, videoUrl, {
-          templateName: 'welcome_message',
-          languageCode: 'en'
-        });
+        // WhatsApp welcome message paused; enable by setting ENABLE_WHATSAPP_WELCOME = true
+        if (ENABLE_WHATSAPP_WELCOME) {
+          const videoUrl = 'https://backend-filegator.pn8thx.easypanel.host/?r=/download&path=L0NhbXBhaWduIFZpZGVvIC0gMDEgKDEpLm1wNA%3D%3D';
+          void whatsappService.sendWelcomeTemplateWithVideo(phoneNumber, videoUrl, {
+            templateName: 'welcome_message',
+            languageCode: 'en'
+          });
+        }
+
+        // Fire-and-forget: send submission payload to n8n webhook with Basic Auth
+        try {
+          const webhookUrl = 'https://backend-n8n.pn8thx.easypanel.host/webhook/whatsappapi';
+          const basicAuth = btoa('nirmal@lifedemy.in:Aiadmk@2025123');
+          const payload = { ...applicationData, application_id: result.applicationId };
+          void fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Basic ${basicAuth}`
+            },
+            body: JSON.stringify(payload),
+            // Keep credentials out; CORS handled by server
+          }).catch(err => console.warn('Webhook post failed:', err));
+        } catch (err) {
+          console.warn('Webhook preparation failed:', err);
+        }
         setIsSubmitted(true);
       } else {
         console.error('Application submission failed:', result.error);
@@ -287,6 +315,26 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                   </div>
                 </div>
                 <p className="text-sm text-green-600 mt-1">{t.phoneVerified}</p>
+              </div>
+
+              {/* Alternate Phone Number (collect separately) */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Phone Number (Alternate)
+                </label>
+                <input
+                  type="tel"
+                  name="alternatePhone"
+                  value={formData.alternatePhone}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  placeholder="Enter alternate phone number"
+                  pattern="^[0-9]{10}$"
+                  maxLength={10}
+                  inputMode="numeric"
+                  title="Enter exactly 10 digits"
+                />
+                <p className="text-xs text-gray-500 mt-1">10 digits</p>
               </div>
 
               {/* Name */}
