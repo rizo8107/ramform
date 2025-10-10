@@ -19,7 +19,6 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
   const [error, setError] = useState('');
   const [language, setLanguage] = useState<Language>('en');
   // reCAPTCHA v3 state
-  const [recaptchaToken, setRecaptchaToken] = useState('');
   const [recaptchaReady, setRecaptchaReady] = useState(false);
   const RECAPTCHA_SITE_KEY = '6LdT9uQrAAAAAPOHRKp9XUdI82kBXGgFIodvbDIz';
 
@@ -44,21 +43,25 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
     setIsSendingOTP(true);
     
     try {
-      // Execute reCAPTCHA v3 and get token
+      // Execute reCAPTCHA v3 and get token (avoid state race on first run)
+      let token = '';
       // @ts-expect-error grecaptcha is injected by the script
       if (recaptchaReady && window.grecaptcha) {
-        // @ts-expect-error grecaptcha global
-        await window.grecaptcha.ready(async () => {
-          try {
+        token = await new Promise<string>((resolve) => {
+          // @ts-expect-error grecaptcha global
+          window.grecaptcha.ready(() => {
             // @ts-expect-error grecaptcha global
-            const token = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'send_otp' });
-            setRecaptchaToken(token);
-          } catch (err) {
-            console.error('reCAPTCHA execute failed:', err);
-          }
+            window.grecaptcha
+              .execute(RECAPTCHA_SITE_KEY, { action: 'send_otp' })
+              .then((t: string) => resolve(t))
+              .catch((err: unknown) => {
+                console.error('reCAPTCHA execute failed:', err);
+                resolve('');
+              });
+          });
         });
       }
-      if (!recaptchaToken) {
+      if (!token) {
         setError('reCAPTCHA validation failed. Please try again.');
         setIsSendingOTP(false);
         return;
@@ -214,7 +217,7 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
                   </div>
                   <button
                     type="submit"
-                    disabled={isSendingOTP || phoneNumber.length !== 10}
+                    disabled={isSendingOTP || phoneNumber.length !== 10 || !recaptchaReady}
                     className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     {isSendingOTP ? 'Sending WhatsApp OTP...' : 'Send WhatsApp OTP'}
