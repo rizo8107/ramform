@@ -586,10 +586,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                 {isSubmitting ? t.submittingApplication : t.submitApplication}
               </button>
 
-              {/* Footer Note */}
-              <p className="text-center text-sm text-gray-500 mt-6 leading-relaxed">
-                {t.footerNote}
-              </p>
+              {/* Footer Note removed */}
             </form>
           </div>
 
