@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Phone, ArrowRight, MessageCircle } from 'lucide-react';
 import LanguageToggle from './LanguageToggle';
 import TwoLeavesLogo from './TwoLeavesLogo';
@@ -18,8 +18,48 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
   const [isSendingOTP, setIsSendingOTP] = useState(false);
   const [error, setError] = useState('');
   const [language, setLanguage] = useState<Language>('en');
+  // reCAPTCHA state
+  const [recaptchaToken, setRecaptchaToken] = useState('');
+  const [recaptchaReady, setRecaptchaReady] = useState(false);
+  const [recaptchaWidgetId, setRecaptchaWidgetId] = useState<number | null>(null);
+  const recaptchaContainerRef = useRef<HTMLDivElement | null>(null);
+  const RECAPTCHA_SITE_KEY = '6LdT9uQrAAAAAPOHRKp9XUdI82kBXGgFIodvbDIz';
 
   const t = translations[language];
+
+  // Load and render Google reCAPTCHA v2 Checkbox
+  useEffect(() => {
+    const scriptId = 'recaptcha-script';
+    if (document.getElementById(scriptId)) return;
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => setRecaptchaReady(true);
+    document.body.appendChild(script);
+  }, []);
+
+  useEffect(() => {
+    // @ts-expect-error grecaptcha is injected by the script
+    if (recaptchaReady && window.grecaptcha && recaptchaContainerRef.current && recaptchaWidgetId === null) {
+      // Wait until grecaptcha is fully ready before rendering (avoids render is not a function)
+      // @ts-expect-error grecaptcha global
+      window.grecaptcha.ready(() => {
+        // @ts-expect-error grecaptcha global
+        if (typeof window.grecaptcha.render === 'function') {
+          // @ts-expect-error grecaptcha global
+          const id = window.grecaptcha.render(recaptchaContainerRef.current!, {
+            sitekey: RECAPTCHA_SITE_KEY,
+            callback: (token: string) => setRecaptchaToken(token),
+            'expired-callback': () => setRecaptchaToken(''),
+            'error-callback': () => setRecaptchaToken(''),
+          });
+          setRecaptchaWidgetId(id as unknown as number);
+        }
+      });
+    }
+  }, [recaptchaReady, recaptchaWidgetId]);
 
   const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +67,12 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
     setIsSendingOTP(true);
     
     try {
+      // Require reCAPTCHA
+      if (!recaptchaToken) {
+        setError('Please complete the reCAPTCHA.');
+        setIsSendingOTP(false);
+        return;
+      }
       // Check if phone number is already registered
       const cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
       
@@ -174,9 +220,14 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
                       required
                     />
                   </div>
+                  {/* reCAPTCHA */}
+                  <div>
+                    <div ref={recaptchaContainerRef} className="g-recaptcha" />
+                    <p className="text-xs text-gray-500 mt-2">Protected by reCAPTCHA</p>
+                  </div>
                   <button
                     type="submit"
-                    disabled={isSendingOTP || phoneNumber.length !== 10}
+                    disabled={isSendingOTP || phoneNumber.length !== 10 || !recaptchaToken}
                     className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     {isSendingOTP ? 'Sending WhatsApp OTP...' : 'Send WhatsApp OTP'}
