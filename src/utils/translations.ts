@@ -16,7 +16,7 @@ export const translations = {
     changePhoneNumber: 'Change Phone Number',
     
     // Form Header
-    becomeAMember: 'மாற்றத்திற்கான இளைஞராக இணையுங்கள்!',
+    becomeAMember: 'Join the Movement',
     joinDescription: "Be the change you want to see! Join the movement that's rewriting the future of Tamil Nadu's politics. Your contribution will spark a revolution against dynastic rule, paving the way for a new era of progress and transparency. \n\nLet's shape the future together - join us and be part of history!",
     joinMovementToday: 'Join the Movement Today',
     
@@ -194,6 +194,7 @@ export const translations = {
     phoneVerified: 'வாட்சப் எண் சரிபார்க்கப்பட்டது',
     verifyPhoneNumber: 'தொலைபேசி எண்ணை சரிபார்க்கவும்',
     whyJoin: 'நீங்கள் ஏன் சேர விரும்புகிறீர்கள்?',
+    motivationPlaceholder: 'அஇஅதிமுக இல் சேருவதற்கான உங்கள் உந்துதலைப் பற்றி எங்களிடம் கூறுங்கள்...',
     alreadyRegistered: 'இந்த தொலைபேசி எண்ணுடன் நீங்கள் ஏற்கனவே பதிவு செய்துள்ளீர்கள்.',
   }
 };

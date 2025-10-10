@@ -358,7 +358,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
               {/* Alternate Phone Number (collect separately) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t.alternatePhone}
+                  {t.alternatePhone} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -371,6 +371,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                   maxLength={10}
                   inputMode="numeric"
                   title="Enter exactly 10 digits"
+                  required
                 />
                 <p className="text-xs text-gray-500 mt-1">{t.tenDigits}</p>
               </div>
