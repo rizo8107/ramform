@@ -108,7 +108,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>('ta');
   // Toggle to enable/disable WhatsApp welcome message after submission
   const ENABLE_WHATSAPP_WELCOME = false;
 
