@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Check } from 'lucide-react';
 import LanguageToggle from './LanguageToggle';
 import TwoLeavesLogo from './TwoLeavesLogo';
@@ -108,7 +108,35 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [language, setLanguage] = useState<Language>('ta');
+  const [language, setLanguage] = useState<Language>(() => {
+    try {
+      const saved = localStorage.getItem('app_language');
+      return (saved === 'ta' || saved === 'en') ? (saved as Language) : 'ta';
+    } catch {
+      return 'ta';
+    }
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem('app_language', language);
+    } catch (e) {
+      // Ignore storage errors (private mode, disabled storage, etc.)
+      console.debug('localStorage unavailable, language not persisted', e);
+    }
+  }, [language]);
+
+  // One-time migration: ensure Tamil shows first even if a previous session saved 'en'
+  useEffect(() => {
+    try {
+      const migrated = localStorage.getItem('lang_migrated_to_ta_default');
+      if (!migrated) {
+        setLanguage('ta');
+        localStorage.setItem('lang_migrated_to_ta_default', 'true');
+      }
+    } catch (e) {
+      console.debug('localStorage unavailable for migration', e);
+    }
+  }, []);
   // Toggle to enable/disable WhatsApp welcome message after submission
   const ENABLE_WHATSAPP_WELCOME = false;
 

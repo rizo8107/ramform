@@ -17,12 +17,41 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
   const [isVerifying, setIsVerifying] = useState(false);
   const [isSendingOTP, setIsSendingOTP] = useState(false);
   const [error, setError] = useState('');
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>(() => {
+    try {
+      const saved = localStorage.getItem('app_language');
+      return (saved === 'ta' || saved === 'en') ? (saved as Language) : 'ta';
+    } catch {
+      return 'ta';
+    }
+  });
   // reCAPTCHA v3 state
   const [recaptchaReady, setRecaptchaReady] = useState(false);
   const RECAPTCHA_SITE_KEY = '6LdT9uQrAAAAAPOHRKp9XUdI82kBXGgFIodvbDIz';
 
   const t = translations[language];
+
+  // Persist language selection
+  useEffect(() => {
+    try {
+      localStorage.setItem('app_language', language);
+    } catch (e) {
+      console.debug('localStorage unavailable, language not persisted', e);
+    }
+  }, [language]);
+
+  // One-time migration to default Tamil on first visit
+  useEffect(() => {
+    try {
+      const migrated = localStorage.getItem('lang_migrated_to_ta_default');
+      if (!migrated) {
+        setLanguage('ta');
+        localStorage.setItem('lang_migrated_to_ta_default', 'true');
+      }
+    } catch (e) {
+      console.debug('localStorage unavailable for migration', e);
+    }
+  }, []);
 
   // Load Google reCAPTCHA v3
   useEffect(() => {
