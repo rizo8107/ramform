@@ -42,44 +42,47 @@ const revenueDistricts = [
 ];
 
 const assemblyConstituencies: Record<string, string[]> = {
-  'Ariyalur': ['Ariyalur', 'Andimadam', 'Sendurai'],
-  'Chengalpattu': ['Chengalpattu', 'Thiruporur', 'Cheyyur'],
-  'Chennai': ['Chennai Central', 'Chennai North', 'Chennai South', 'T. Nagar', 'Mylapore'],
-  'Coimbatore': ['Coimbatore North', 'Coimbatore South', 'Singanallur', 'Sulur'],
-  'Cuddalore': ['Cuddalore', 'Panruti', 'Vriddachalam'],
-  'Dharmapuri': ['Dharmapuri', 'Palacode', 'Pennagaram'],
-  'Dindigul': ['Dindigul', 'Natham', 'Nilakottai'],
-  'Erode': ['Erode East', 'Erode West', 'Modakkurichi'],
-  'Kallakurichi': ['Kallakurichi', 'Chinnaselam', 'Rishivandinam'],
-  'Kanchipuram': ['Kanchipuram', 'Arakkonam', 'Sholinghur'],
-  'Kanyakumari': ['Kanyakumari', 'Nagercoil', 'Colachel'],
-  'Karur': ['Karur', 'Krishnarayapuram', 'Manapparai'],
-  'Krishnagiri': ['Krishnagiri', 'Hosur', 'Uthangarai'],
-  'Madurai': ['Madurai Central', 'Madurai East', 'Madurai West', 'Madurai North'],
-  'Mayiladuthurai': ['Mayiladuthurai', 'Sirkazhi', 'Poompuhar'],
-  'Nagapattinam': ['Nagapattinam', 'Kilvelur', 'Vedaranyam'],
-  'Namakkal': ['Namakkal', 'Rasipuram', 'Senthamangalam'],
-  'Nilgiris': ['Udagamandalam', 'Gudalur', 'Coonoor'],
-  'Perambalur': ['Perambalur', 'Kunnam', 'Alathur'],
-  'Pudukkottai': ['Pudukkottai', 'Thirumayam', 'Alangudi'],
-  'Ramanathapuram': ['Ramanathapuram', 'Mudukulathur', 'Paramakudi'],
-  'Ranipet': ['Ranipet', 'Arcot', 'Sholingur'],
-  'Salem': ['Salem North', 'Salem South', 'Salem West', 'Attur'],
-  'Sivaganga': ['Sivaganga', 'Manamadurai', 'Tiruppattur'],
-  'Tenkasi': ['Tenkasi', 'Alangulam', 'Kadayanallur'],
-  'Thanjavur': ['Thanjavur', 'Thiruvidaimarudur', 'Kumbakonam'],
-  'Theni': ['Theni', 'Bodinayakanur', 'Periyakulam'],
-  'Thoothukudi': ['Thoothukudi', 'Tiruchendur', 'Srivaikuntam'],
-  'Tiruchirappalli': ['Tiruchirappalli East', 'Tiruchirappalli West', 'Srirangam'],
-  'Tirunelveli': ['Tirunelveli', 'Nanguneri', 'Radhapuram'],
-  'Tirupathur': ['Tirupathur', 'Ambur', 'Natrampalli'],
-  'Tiruppur': ['Tiruppur North', 'Tiruppur South', 'Palladam'],
-  'Tiruvallur': ['Tiruvallur', 'Ponneri', 'Gummidipoondi'],
-  'Tiruvannamalai': ['Tiruvannamalai', 'Kilpennathur', 'Kalasapakkam'],
-  'Tiruvarur': ['Tiruvarur', 'Mannargudi', 'Nannilam'],
-  'Vellore': ['Vellore', 'Katpadi', 'Gudiyatham'],
-  'Viluppuram': ['Viluppuram', 'Tindivanam', 'Vanur'],
-  'Virudhunagar': ['Virudhunagar', 'Sivakasi', 'Srivilliputhur']
+  Ariyalur: ['Ariyalur', 'Jayankondam'],
+  Chengalpattu: ['Shozhinganallur', 'Pallavaram', 'Tambaram', 'Chengalpattu', 'Thiruporur', 'Cheyyur', 'Madurantakam'],
+  Chennai: [
+    'Dr.Radhakrishnan Nagar','Perambur','Kolathur','Villivakkam','Thiru-Vi-Ka-Nagar','Egmore','Royapuram','Harbour',
+    'Chepauk- Thiruvallikeni','Thousand Lights','Anna Nagar','Virugampakkam','Saidapet','Thiyagarayanagar','Mylapore','Velachery'
+  ],
+  Coimbatore: ['Mettuppalayam','Sulur','Kavundampalayam','Coimbatore (North)','Thondamuthur','Coimbatore (South)','Singanallur','Kinathukadavu','Pollachi','Valparai'],
+  Cuddalore: ['Tittakudi','Vriddhachalam','Neyveli','Panruti','Cuddalore','Kurinjipadi','Bhuvanagiri','Chidambaram','Kattumannarkoil'],
+  Dharmapuri: ['Palacodu','Pennagaram','Dharmapuri','Pappireddippatti','Harur'],
+  Dindigul: ['Palani','Oddanchatram','Athoor','Nilakkottai','Natham','Dindigul','Vedasandur'],
+  Erode: ['Erode (East)','Erode (West)','Modakkurichi','Perundurai','Bhavani','Anthiyur','Gobichettipalayam','Bhavanisagar'],
+  Kallakurichi: ['Ulundurpettai','Rishivandiyam','Sankarapuram','Kallakurichi'],
+  Kanchipuram: ['Alandur','Sriperumbudur','Uthiramerur','Kancheepuram'],
+  Kanyakumari: ['Kanniyakumari','Nagercoil','Colachel','Padmanabhapuram','Vilavancode','Killiyoor'],
+  Karur: ['Aravakurichi','Karur','Krishnarayapuram','Kulithalai'],
+  Krishnagiri: ['Uthangarai','Bargur','Krishnagiri','Veppanahalli','Hosur','Thalli'],
+  Madurai: ['Melur','Madurai East','Sholavandan','Madurai North','Madurai South','Madurai Central','Madurai West','Thiruparankundram','Thirumangalam','Usilampatti'],
+  Mayiladuthurai: ['Sirkazhi','Mayiladuthurai','Poompuhar'],
+  Nagapattinam: ['Nagapattinam','Kilvelur','Vedaranyam'],
+  Namakkal: ['Rasipuram','Senthamangalam','Namakkal','Paramathi-Velur','Tiruchengodu','Kumarapalayam'],
+  Nilgiris: ['Udhagamandalam','Gudalur','Coonoor'],
+  Perambalur: ['Perambalur','Kunnam'],
+  Pudukkottai: ['Gandharvakottai','Viralimalai','Pudukkottai','Thirumayam','Alangudi','Aranthangi'],
+  Ramanathapuram: ['Paramakudi','Tiruvadanai','Ramanathapuram','Mudhukulathur'],
+  Ranipet: ['Arakkonam','Sholingur','Ranipet','Arcot'],
+  Salem: ['Gangavalli','Attur','Yercaud','Omalur','Mettur','Edappadi','Sankari','Salem (West)','Salem (North)','Salem (South)','Veerapandi'],
+  Sivaganga: ['Karaikudi','Tiruppattur','Sivaganga','Manamadurai'],
+  Tenkasi: ['Sankarankovil','Vasudevanallur','Kadayanallur','Tenkasi','Alangulam'],
+  Thanjavur: ['Thiruvidaimarudur','Kumbakonam','Papanasam','Thiruvaiyaru','Thanjavur','Orathanadu','Pattukkottai','Peravurani'],
+  Theni: ['Andipatti','Periyakulam','Bodinayakanur','Cumbum'],
+  Thoothukudi: ['Vilathikulam','Thoothukkudi','Tiruchendur','Srivaikuntam','Ottapidaram','Kovilpatti'],
+  Tiruchirappalli: ['Manapparai','Srirangam','Tiruchirappalli (West)','Tiruchirappalli (East)','Thiruverumbur','Lalgudi','Manachanallur','Musiri','Thuraiyur'],
+  Tirunelveli: ['Tirunelveli','Ambasamudram','Palayamkottai','Nanguneri','Radhapuram'],
+  Tirupathur: ['Vaniyambadi','Ambur','Jolarpet','Tiruppattur'],
+  Tiruppur: ['Dharapuram','Kangayam','Avanashi','Tiruppur (North)','Tiruppur (South)','Palladam','Udumalaipettai','Madathukulam'],
+  Tiruvallur: ['Gummidipoondi','Ponneri','Tiruttani','Thiruvallur','Poonamallee','Avadi','Maduravoyal','Ambattur','Madavaram','Tiruvottiyur'],
+  Tiruvannamalai: ['Chengam','Tiruvannamalai','Kilpennathur','Kalasapakkam','Polur','Arani','Cheyyar','Vandavasi'],
+  Tiruvarur: ['Thiruthuraipoondi','Mannargudi','Thiruvarur','Nannilam'],
+  Vellore: ['Katpadi','Vellore','Anaikattu','Kilvaithinankuppam','Gudiyattam'],
+  Viluppuram: ['Gingee','Mailam','Tindivanam','Vanur','Viluppuram','Vikravandi','Tirukkoyilur'],
+  Virudhunagar: ['Rajapalayam','Srivilliputhur','Sattur','Sivakasi','Virudhunagar','Aruppukkottai','Tiruchuli']
 };
 
 export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
@@ -472,7 +475,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
               {/* Occupation */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Occupation <span className="text-red-500">*</span>
+                  {t.occupation} <span className="text-red-500">*</span>
                 </label>
                 <select
                   name="occupation"
@@ -481,7 +484,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   required
                 >
-                  <option value="">Select Occupation</option>
+                  <option value="">{t.selectOccupation}</option>
                   <option value="Student">{t.student}</option>
                   <option value="Private">{t.privateEmployed}</option>
                   <option value="Government">{t.governmentEmployed}</option>
@@ -494,7 +497,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
               {/* Membership Question */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Are you already a member of our party? <span className="text-red-500">*</span>
+                  {t.alreadyMember} <span className="text-red-500">*</span>
                 </label>
                 <select
                   name="isAlreadyMember"
@@ -503,7 +506,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   required
                 >
-                  <option value="">Select</option>
+                  <option value="">{t.selectOption}</option>
                   <option value="Yes">{t.yes}</option>
                   <option value="No">{t.no}</option>
                 </select>
@@ -512,7 +515,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
               {/* Motivation */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Why do you want to join? <span className="text-red-500">*</span>
+                  {t.whyJoin} <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   name="motivation"
@@ -520,7 +523,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                   onChange={handleInputChange}
                   rows={4}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-none"
-                  placeholder="Tell us about your motivation to join AIADMK..."
+                  placeholder={t.motivationPlaceholder}
                   required
                 />
               </div>
@@ -537,7 +540,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                   required
                 />
                 <label htmlFor="agreeTerms" className="text-sm text-gray-600 leading-relaxed">
-                  I agree to the terms and conditions and privacy policy. I confirm that all provided information is accurate.
+                  {t.agreeTerms}
                 </label>
               </div>
 
@@ -547,12 +550,12 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                 disabled={isSubmitting}
                 className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-semibold py-4 px-6 rounded-lg transition-colors text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
               >
-                {isSubmitting ? t.submittingApplication : 'Submit Application'}
+                {isSubmitting ? t.submittingApplication : t.submitApplication}
               </button>
 
               {/* Footer Note */}
               <p className="text-center text-sm text-gray-500 mt-6 leading-relaxed">
-                By joining, you'll be part of a historic movement dedicated to Tamil Nadu's development and prosperity.
+                {t.footerNote}
               </p>
             </form>
           </div>

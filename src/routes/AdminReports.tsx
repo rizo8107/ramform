@@ -66,6 +66,37 @@ export default function AdminReports() {
       acc[k] = (acc[k] || 0) + 1;
       return acc;
     }, {});
+    const byGender = filtered.reduce<Record<string, number>>((acc, a) => {
+      const g = (a.gender || 'Unknown') as string;
+      acc[g] = (acc[g] || 0) + 1;
+      return acc;
+    }, {});
+    const byMember = filtered.reduce<Record<string, number>>((acc, a) => {
+      const k = a.is_already_member ? 'Yes' : 'No';
+      acc[k] = (acc[k] || 0) + 1;
+      return acc;
+    }, {});
+    // Age buckets from date_of_birth
+    const byAgeBucket = filtered.reduce<Record<string, number>>((acc, a) => {
+      const dob = a.date_of_birth ? new Date(a.date_of_birth) : null;
+      if (!dob || isNaN(dob.getTime())) {
+        acc['Unknown'] = (acc['Unknown'] || 0) + 1;
+        return acc;
+      }
+      const now = new Date();
+      let age = now.getFullYear() - dob.getFullYear();
+      const m = now.getMonth() - dob.getMonth();
+      if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
+      let bucket: string = '55+';
+      if (age < 18) bucket = '<18';
+      else if (age <= 24) bucket = '18-24';
+      else if (age <= 34) bucket = '25-34';
+      else if (age <= 44) bucket = '35-44';
+      else if (age <= 54) bucket = '45-54';
+      acc[bucket] = (acc[bucket] || 0) + 1;
+      return acc;
+    }, {});
+
     const byDay = filtered.reduce<Record<string, number>>((acc, a) => {
       const day = new Date(a.submitted_at).toISOString().slice(0, 10);
       acc[day] = (acc[day] || 0) + 1;
@@ -80,7 +111,7 @@ export default function AdminReports() {
       .sort((a, b) => b[1] - a[1])
       .slice(0, 10);
 
-    return { total, byStatus, byDistrict, daySeries, topDistricts };
+    return { total, byStatus, byDistrict, byGender, byMember, byAgeBucket, daySeries, topDistricts };
   }, [filtered]);
 
   const lineData = useMemo(() => ({
@@ -152,6 +183,46 @@ export default function AdminReports() {
   }, [stats.byStatus]);
 
   const pieOptions = { responsive: true, maintainAspectRatio: false } as const;
+
+  // Age distribution (bar)
+  const ageBarData = useMemo(() => {
+    const order = ['<18','18-24','25-34','35-44','45-54','55+'];
+    return {
+      labels: order,
+      datasets: [
+        {
+          label: 'Applicants',
+          data: order.map(k => (stats.byAgeBucket[k] || 0)),
+          backgroundColor: 'rgba(99, 102, 241, 0.6)',
+        },
+      ],
+    };
+  }, [stats.byAgeBucket]);
+  const ageBarOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } }, x: { grid: { display: false } } } } as const;
+
+  // Gender split (pie)
+  const genderPieData = useMemo(() => {
+    const labels = ['Male','Female','Unknown'];
+    return {
+      labels,
+      datasets: [{
+        data: labels.map(k => stats.byGender[k] || 0),
+        backgroundColor: ['#60a5fa','#f472b6','#94a3b8'],
+      }],
+    };
+  }, [stats.byGender]);
+
+  // Party Member (Yes/No)
+  const memberPieData = useMemo(() => {
+    const labels = ['Yes','No'];
+    return {
+      labels,
+      datasets: [{
+        data: labels.map(k => stats.byMember[k] || 0),
+        backgroundColor: ['#10b981','#ef4444'],
+      }],
+    };
+  }, [stats.byMember]);
 
   // Stacked by status over days
   const stackedData = useMemo(() => {
@@ -238,6 +309,25 @@ export default function AdminReports() {
           </div>
         ) : (
           <>
+            {/* Primary charts requested: Age, Gender, Location, Party Member */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 className="text-lg font-semibold text-slate-900 mb-4">Age Distribution</h2>
+                <div className="h-64">{filtered.length === 0 ? <p className="text-slate-600">No data</p> : <Bar data={ageBarData} options={ageBarOptions} />}</div>
+              </div>
+              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 className="text-lg font-semibold text-slate-900 mb-4">Gender Split</h2>
+                <div className="h-64"><Pie data={genderPieData} options={pieOptions} /></div>
+              </div>
+              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 className="text-lg font-semibold text-slate-900 mb-4">Top Locations</h2>
+                <div className="h-64">{stats.topDistricts.length === 0 ? <p className="text-slate-600">No data</p> : <Bar data={barData} options={barOptions} />}</div>
+              </div>
+              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 className="text-lg font-semibold text-slate-900 mb-4">Party Member (Yes/No)</h2>
+                <div className="h-64"><Pie data={memberPieData} options={pieOptions} /></div>
+              </div>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                 <p className="text-sm text-slate-600">Total Applications</p>
