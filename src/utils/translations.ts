@@ -16,7 +16,7 @@ export const translations = {
     changePhoneNumber: 'Change Phone Number',
     
     // Form Header
-    becomeAMember: 'Join the movement',
+    becomeAMember: 'மாற்றத்திற்கான இளைஞராக இணையுங்கள்!',
     joinDescription: "Be the change you want to see! Join the movement that's rewriting the future of Tamil Nadu's politics. Your contribution will spark a revolution against dynastic rule, paving the way for a new era of progress and transparency. \n\nLet's shape the future together - join us and be part of history!",
     joinMovementToday: 'Join the Movement Today',
     
@@ -68,6 +68,11 @@ export const translations = {
     selectGender: 'Select Gender',
     enterAddress: 'Enter your complete address',
     
+    // Alternate Phone
+    alternatePhone: 'Phone Number',
+    enterAlternatePhone: 'Enter phone number',
+    tenDigits: '10 digits',
+    
     // Buttons and Actions
     submitApplication: 'Submit Application',
     submittingApplication: 'Submitting Application...',
@@ -95,10 +100,10 @@ export const translations = {
   },
   ta: {
     // OTP Verification
-    mobileVerification: 'மொபைல் சரிபார்ப்பு',
-    mobileNumber: 'மொபைல் எண்',
-    enterMobile: '10 இலக்க மொபைல் எண்ணை உள்ளிடுக',
-    enterMobileToGetStarted: 'தொடங்க உங்கள் மொபைல் எண்ணை உள்ளிடுக',
+    mobileVerification: 'வாட்சப் எண் சரிபார்ப்பு',
+    mobileNumber: 'வாட்சப் எண்',
+    enterMobile: 'வாட்சப் எண்ணை உள்ளிடுக',
+    enterMobileToGetStarted: 'உங்கள் வாட்சப் எண்ணை உள்ளிடுக',
     sendOTP: 'OTP அனுப்பு',
     sendingOTP: 'OTP அனுப்பப்படுகிறது...',
     enterOTP: 'OTP உள்ளிடுக',
@@ -112,7 +117,7 @@ export const translations = {
     // Form Header
     becomeAMember: 'மாற்றத்திற்கான இளைஞராக இணையுங்கள்!',
     joinDescription: 'உலகில் நீங்கள் காண விரும்பும் மாற்றமாக இருங்கள்!\n\nதமிழ்நாட்டின் எதிர்கால அரசியலை எழுதப்போகும் பயணத்தில் நீங்களும் இணையுங்கள். குடும்ப அரசியலுக்கு எதிரான உங்களின் பங்களிப்பு முன்னேற்றமும் வெளிப்படைத்தன்மையும் கொண்ட புதிய சகாப்தத்திற்கு வித்திடும்.\n\nமாற்றத்திற்கான இளைஞராக மாறுவோம், வரலாறு படைப்போம்',
-    joinMovementToday: 'மாற்றத்திற்கான இளைஞராக மாறுவோம், வரலாறு படைப்போம்',
+    joinMovementToday: 'மாற்றத்திற்கான இளைஞராக மாறுவோம்! வரலாறு படைப்போம்!',
     
     // Form Fields
     name: 'பெயர்',
@@ -162,6 +167,11 @@ export const translations = {
     selectGender: 'பாலினத்தை தேர்ந்தெடுக்கவும்',
     enterAddress: 'உங்கள் முழு முகவரியை உள்ளிடுக',
     
+    // Alternate Phone
+    alternatePhone: 'மொபைல் எண்',
+    enterAlternatePhone: 'மொபைல் எண்ணை உள்ளிடுக',
+    tenDigits: '10 இலக்கங்கள்',
+    
     // Buttons and Actions
     submitApplication: 'விண்ணப்பத்தை சமர்பிக்கவும்',
     submittingApplication: 'விண்ணப்பம் சமர்பிக்கப்படுகிறது...',
@@ -172,7 +182,7 @@ export const translations = {
     
     // Terms
     agreeTerms: 'நான் விதிமுறைகள் மற்றும் நிபந்தனைகள் மற்றும் தனியுரிமை கொள்கையை ஒப்புக்கொள்கிறேன். வழங்கப்பட்ட அனைத்து தகவல்களும் துல்லியமானவை என்பதை உறுதிப்படுத்துகிறேன்.',
-    footerNote: 'சேர்வதன் மூலம், தமிழ்நாட்டின் வளர்ச்சி மற்றும் முன்னேற்றத்திற்காக அர்ப்பணிக்கப்பட்ட ஒரு வரலாற்று இயக்கத்தின் ஒரு பகுதியாக இருப்பீர்கள். ஒன்றாக சேர்ந்து, நாம் பெரிய விஷயங்களை சாதிக்க முடியும்.',
+
     
     // Validation
     validMobile: 'தயவுசெய்து சரியான 10 இலக்க தொலைபேசி எண்ணை உள்ளிடுக',
@@ -181,10 +191,9 @@ export const translations = {
     verifyWhatsApp: 'வாட்ஸ்ஆப் எண்ணை சரிபார்க்கவும்',
     otpSentToWhatsApp: 'வாட்ஸ்ஆப் எண்ணுக்கு OTP அனுப்பப்பட்டது:',
     whatsappVerified: 'வாட்ஸ்ஆப் எண் சரிபார்க்கப்பட்டது',
-    phoneVerified: 'தொலைபேசி எண் சரிபார்க்கப்பட்டது',
+    phoneVerified: 'வாட்சப் எண் சரிபார்க்கப்பட்டது',
     verifyPhoneNumber: 'தொலைபேசி எண்ணை சரிபார்க்கவும்',
     whyJoin: 'நீங்கள் ஏன் சேர விரும்புகிறீர்கள்?',
-    motivationPlaceholder: 'அஇஅதிமுக இல் சேருவதற்கான உங்கள் உந்துதலைப் பற்றி எங்களிடம் கூறுங்கள்...',
     alreadyRegistered: 'இந்த தொலைபேசி எண்ணுடன் நீங்கள் ஏற்கனவே பதிவு செய்துள்ளீர்கள்.',
   }
 };

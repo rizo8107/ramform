@@ -20,9 +20,12 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
   const [language, setLanguage] = useState<Language>(() => {
     try {
       const saved = localStorage.getItem('app_language');
-      return (saved === 'ta' || saved === 'en') ? (saved as Language) : 'ta';
+      if (saved === 'ta' || saved === 'en') return saved as Language;
+      const envDefault = (import.meta as ImportMeta).env?.VITE_DEFAULT_LANGUAGE as string | undefined;
+      const fallback = envDefault === 'ta' || envDefault === 'en' ? (envDefault as Language) : 'en';
+      return fallback;
     } catch {
-      return 'ta';
+      return 'en';
     }
   });
   // reCAPTCHA v3 state
@@ -40,18 +43,7 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
     }
   }, [language]);
 
-  // One-time migration to default Tamil on first visit
-  useEffect(() => {
-    try {
-      const migrated = localStorage.getItem('lang_migrated_to_ta_default');
-      if (!migrated) {
-        setLanguage('ta');
-        localStorage.setItem('lang_migrated_to_ta_default', 'true');
-      }
-    } catch (e) {
-      console.debug('localStorage unavailable for migration', e);
-    }
-  }, []);
+  // Honor saved choice or env default; no forced migration
 
   // Load Google reCAPTCHA v3
   useEffect(() => {
