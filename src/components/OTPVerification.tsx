@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Phone, ArrowRight, MessageCircle } from 'lucide-react';
 import LanguageToggle from './LanguageToggle';
 import TwoLeavesLogo from './TwoLeavesLogo';
@@ -18,48 +18,25 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
   const [isSendingOTP, setIsSendingOTP] = useState(false);
   const [error, setError] = useState('');
   const [language, setLanguage] = useState<Language>('en');
-  // reCAPTCHA state
+  // reCAPTCHA v3 state
   const [recaptchaToken, setRecaptchaToken] = useState('');
   const [recaptchaReady, setRecaptchaReady] = useState(false);
-  const [recaptchaWidgetId, setRecaptchaWidgetId] = useState<number | null>(null);
-  const recaptchaContainerRef = useRef<HTMLDivElement | null>(null);
   const RECAPTCHA_SITE_KEY = '6LdT9uQrAAAAAPOHRKp9XUdI82kBXGgFIodvbDIz';
 
   const t = translations[language];
 
-  // Load and render Google reCAPTCHA v2 Checkbox
+  // Load Google reCAPTCHA v3
   useEffect(() => {
     const scriptId = 'recaptcha-script';
     if (document.getElementById(scriptId)) return;
     const script = document.createElement('script');
     script.id = scriptId;
-    script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+    script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
     script.async = true;
     script.defer = true;
     script.onload = () => setRecaptchaReady(true);
     document.body.appendChild(script);
   }, []);
-
-  useEffect(() => {
-    // @ts-expect-error grecaptcha is injected by the script
-    if (recaptchaReady && window.grecaptcha && recaptchaContainerRef.current && recaptchaWidgetId === null) {
-      // Wait until grecaptcha is fully ready before rendering (avoids render is not a function)
-      // @ts-expect-error grecaptcha global
-      window.grecaptcha.ready(() => {
-        // @ts-expect-error grecaptcha global
-        if (typeof window.grecaptcha.render === 'function') {
-          // @ts-expect-error grecaptcha global
-          const id = window.grecaptcha.render(recaptchaContainerRef.current!, {
-            sitekey: RECAPTCHA_SITE_KEY,
-            callback: (token: string) => setRecaptchaToken(token),
-            'expired-callback': () => setRecaptchaToken(''),
-            'error-callback': () => setRecaptchaToken(''),
-          });
-          setRecaptchaWidgetId(id as unknown as number);
-        }
-      });
-    }
-  }, [recaptchaReady, recaptchaWidgetId]);
 
   const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,9 +44,22 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
     setIsSendingOTP(true);
     
     try {
-      // Require reCAPTCHA
+      // Execute reCAPTCHA v3 and get token
+      // @ts-expect-error grecaptcha is injected by the script
+      if (recaptchaReady && window.grecaptcha) {
+        // @ts-expect-error grecaptcha global
+        await window.grecaptcha.ready(async () => {
+          try {
+            // @ts-expect-error grecaptcha global
+            const token = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'send_otp' });
+            setRecaptchaToken(token);
+          } catch (err) {
+            console.error('reCAPTCHA execute failed:', err);
+          }
+        });
+      }
       if (!recaptchaToken) {
-        setError('Please complete the reCAPTCHA.');
+        setError('reCAPTCHA validation failed. Please try again.');
         setIsSendingOTP(false);
         return;
       }
@@ -95,7 +85,8 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
       } else {
         setError(result.error || 'Failed to send OTP');
       }
-    } catch (_err) {
+    } catch (err) {
+      console.error('Error in handleSendOTP:', err);
       setError('Network error. Please try again.');
     } finally {
       setIsSendingOTP(false);
@@ -116,7 +107,8 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
         setError(result.error || t.invalidOTP);
         setOtp('');
       }
-    } catch (_err) {
+    } catch (err) {
+      console.error('Error in handleVerifyOTP:', err);
       setError('Verification failed. Please try again.');
       setOtp('');
     } finally {
@@ -220,14 +212,9 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
                       required
                     />
                   </div>
-                  {/* reCAPTCHA */}
-                  <div>
-                    <div ref={recaptchaContainerRef} className="g-recaptcha" />
-                    <p className="text-xs text-gray-500 mt-2">Protected by reCAPTCHA</p>
-                  </div>
                   <button
                     type="submit"
-                    disabled={isSendingOTP || phoneNumber.length !== 10 || !recaptchaToken}
+                    disabled={isSendingOTP || phoneNumber.length !== 10}
                     className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     {isSendingOTP ? 'Sending WhatsApp OTP...' : 'Send WhatsApp OTP'}
