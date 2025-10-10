@@ -134,6 +134,11 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
 
   const t = translations[language];
 
+  // Max allowed DOB to ensure age >= 18
+  const maxDOBDate = new Date();
+  maxDOBDate.setFullYear(maxDOBDate.getFullYear() - 18);
+  const maxDOB = maxDOBDate.toISOString().split('T')[0];
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     
@@ -164,6 +169,22 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
     // clear previous errors shown via alert only
     
     try {
+      // Age validation: must be at least 18 years
+      if (formData.dateOfBirth) {
+        const dob = new Date(formData.dateOfBirth);
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+          age--;
+        }
+        if (age < 18) {
+          const msg = language === 'en' ? 'You must be at least 18 years old to apply.' : 'விண்ணப்பிக்க உங்கள் வயது குறைந்தது 18 ஆக இருக்க வேண்டும்.';
+          alert(msg);
+          setIsSubmitting(false);
+          return;
+        }
+      }
       // Check if phone number already exists
       const existingCheck = await membershipService.getApplicationByPhone(phoneNumber);
       if (existingCheck.success && existingCheck.application) {
@@ -436,6 +457,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                     value={formData.dateOfBirth}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    max={maxDOB}
                     required
                   />
                 </div>
