@@ -236,10 +236,13 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
           <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
             <Check className="h-10 w-10 text-green-600" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.applicationSubmitted}</h2>
-          <p className="text-sm text-gray-500">
-            {t.thankYou}
-          </p>
+          <h2 className="text-xl font-semibold text-gray-900 mb-3">{t.applicationSubmitted}</h2>
+          <div className="space-y-2 text-gray-800">
+            <p className="text-base font-semibold inline-block bg-amber-100 text-amber-900 px-4 py-2 rounded-md shadow-sm">
+              Thank you for joining the fight against dynastic politics.
+            </p>
+            <p className="text-base font-bold">Together, let's build a better tomorrow. Our team will get in touch with you soon!</p>
+          </div>
         </div>
       </div>
     );
