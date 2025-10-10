@@ -236,11 +236,23 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
         </div>
         
         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 text-center">
-          <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Check className="h-10 w-10 text-green-600" />
-          </div>
+          {/* Logo above the tick */}
+          <img
+            src="/LOGO amdmk.webp"
+            alt="Logo"
+            className="w-45 h-auto mx-auto mb-4"
+            loading="lazy"
+            decoding="async"
+          />
           <h2 className="text-xl font-semibold text-gray-900 mb-3">{t.applicationSubmitted}</h2>
           <div className="space-y-2 text-gray-800">
+            {/* Tamil first */}
+            <p className="text-base font-semibold inline-block bg-amber-100 text-amber-900 px-4 py-2 rounded-md shadow-sm">
+              குடும்ப அரசியலுக்கு எதிரான போராட்டத்தில் இணைந்ததற்கு நன்றி.
+            </p>
+            <p className="text-base font-bold">நமது உழைப்பால் நாளைய எதிர்காலத்தை சிறப்பாக மாற்றுவோம். எங்களின் குழுவினர் உங்களை தொடர்பு கொள்வார்கள்</p>
+            <div className="pt-2" />
+            {/* English next */}
             <p className="text-base font-semibold inline-block bg-amber-100 text-amber-900 px-4 py-2 rounded-md shadow-sm">
               Thank you for joining the fight against dynastic politics.
             </p>
@@ -293,9 +305,11 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Join the <span className="text-green-600">Movement</span>
             </h1>
-            <p className="text-gray-600 text-lg leading-relaxed mb-8 max-w-xl mx-auto">
-              {t.joinDescription}
-            </p>
+            <div className="text-gray-600 text-lg leading-relaxed mb-8 max-w-xl mx-auto space-y-3">
+              {t.joinDescription.split('\n\n').map((para, idx) => (
+                <p key={idx} className="whitespace-pre-line">{para}</p>
+              ))}
+            </div>
             <div className="bg-green-600 text-white py-4 px-8 rounded-xl font-semibold text-lg shadow-lg">
               {t.joinMovementToday}
             </div>

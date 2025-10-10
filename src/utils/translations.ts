@@ -73,7 +73,7 @@ export const translations = {
     submittingApplication: 'Submitting Application...',
     
     // Success
-    applicationSubmitted: 'Application Submitted!',
+    applicationSubmitted: 'ஒன்றிணைவோம் வென்றிடுவோம்!',
     thankYou: "Thank you for joining the fight against dynastic politics. Together, let's build a better tomorrow. Our team will get in touch with you soon!",
     
     // Terms
@@ -110,9 +110,9 @@ export const translations = {
     changePhoneNumber: 'தொலைபேசி எண்ணை மாற்றவும்',
     
     // Form Header
-    becomeAMember: 'அ.இ.அ.த.மு.க வில் உறுப்பினராகுங்கள்',
-    joinDescription: "நீங்கள் காண விரும்பும் மாற்றமாக நீங்களே இருங்கள்! தமிழ்நாட்டின் அரசியலின் எதிர்காலத்தை மறுபரிணமிப்பதற்கான இயக்கத்தில் இணைக. உங்கள் பங்களிப்பு வாரிசுராஜியத்துக்கு எதிரான புரட்சிக்கு தீப்பெட்டி ஆகும்; வெளிப்படைத் தன்மையும் முன்னேற்றமும் நிறைந்த புதிய காலத்திற்கான பாதையைத் திறக்கும்.\n\nநாம் ஒன்றாக எதிர்காலத்தை வடிவமைப்போம் – இன்றே இணைந்து வரலாற்றின் ஒரு பகுதியாகுங்கள்!",
-    joinMovementToday: 'இன்றே இயக்கத்தில் சேருங்கள்',
+    becomeAMember: 'மாற்றத்திற்கான இளைஞராக இணையுங்கள்!',
+    joinDescription: 'உலகில் நீங்கள் காண விரும்பும் மாற்றமாக இருங்கள்!\n\nதமிழ்நாட்டின் எதிர்கால அரசியலை எழுதப்போகும் பயணத்தில் நீங்களும் இணையுங்கள். குடும்ப அரசியலுக்கு எதிரான உங்களின் பங்களிப்பு முன்னேற்றமும் வெளிப்படைத்தன்மையும் கொண்ட புதிய சகாப்தத்திற்கு வித்திடும்.\n\nமாற்றத்திற்கான இளைஞராக மாறுவோம், வரலாறு படைப்போம்',
+    joinMovementToday: 'மாற்றத்திற்கான இளைஞராக மாறுவோம், வரலாறு படைப்போம்',
     
     // Form Fields
     name: 'பெயர்',
@@ -167,7 +167,7 @@ export const translations = {
     submittingApplication: 'விண்ணப்பம் சமர்பிக்கப்படுகிறது...',
     
     // Success
-    applicationSubmitted: 'விண்ணப்பம் சமர்பிக்கப்பட்டது!',
+    applicationSubmitted: 'ஒன்றிணைவோம் வென்றிடுவோம்!',
     thankYou: 'எங்கள் இயக்கத்தில் சேர்ந்ததற்கு நன்றி. விரைவில் உங்களை தொடர்பு கொள்வோம்.',
     
     // Terms
