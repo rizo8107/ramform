@@ -26,13 +26,15 @@ export default function AdminReports() {
   const allStatuses = ['pending', 'under_review', 'approved', 'rejected'] as const;
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([...allStatuses]);
   const [selectedDistricts, setSelectedDistricts] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(50);
 
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        // Fetch a large page to build aggregates. Adjust if you expect more rows.
-        const { data } = await adminService.fetchApplications({ page: 1, pageSize: 1000, status: 'all' });
+        // Load all applications to allow full pagination and accurate aggregates
+        const data = await adminService.getAllApplications();
         setApps(data);
       } catch (e: any) {
         setError(e?.message || 'Failed to load reports');
@@ -67,7 +69,8 @@ export default function AdminReports() {
       return acc;
     }, {});
     const byGender = filtered.reduce<Record<string, number>>((acc, a) => {
-      const g = (a.gender || 'Unknown') as string;
+      const raw = (a.gender || '').toString();
+      const g = raw === 'Male' || raw === 'Female' ? raw : 'Other';
       acc[g] = (acc[g] || 0) + 1;
       return acc;
     }, {});
@@ -113,6 +116,18 @@ export default function AdminReports() {
 
     return { total, byStatus, byDistrict, byGender, byMember, byAgeBucket, daySeries, topDistricts };
   }, [filtered]);
+
+  // Pagination (client-side) over filtered results
+  const totalRows = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
+  const safePage = Math.min(Math.max(1, currentPage), totalPages);
+  const pageStart = (safePage - 1) * pageSize;
+  const pageItems = filtered.slice(pageStart, pageStart + pageSize);
+
+  // Reset to first page when filters or page size change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [fromDate, toDate, selectedStatuses, selectedDistricts, pageSize]);
 
   const lineData = useMemo(() => ({
     labels: stats.daySeries.map(d => new Date(d.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })),
@@ -168,21 +183,7 @@ export default function AdminReports() {
     },
   } as const;
 
-  const pieData = useMemo(() => {
-    const labels = ['pending', 'under_review', 'approved', 'rejected'];
-    const colors = ['#f59e0b', '#3b82f6', '#10b981', '#ef4444'];
-    return {
-      labels: labels.map(l => l.replace('_', ' ').toUpperCase()),
-      datasets: [
-        {
-          data: labels.map(l => stats.byStatus[l] || 0),
-          backgroundColor: colors,
-        },
-      ],
-    };
-  }, [stats.byStatus]);
-
-  const pieOptions = { responsive: true, maintainAspectRatio: false } as const;
+  // Removed status breakdown pie (no longer needed)
 
   // Age distribution (bar)
   const ageBarData = useMemo(() => {
@@ -202,7 +203,7 @@ export default function AdminReports() {
 
   // Gender split (pie)
   const genderPieData = useMemo(() => {
-    const labels = ['Male','Female','Unknown'];
+    const labels = ['Male','Female','Other'];
     return {
       labels,
       datasets: [{
@@ -211,6 +212,9 @@ export default function AdminReports() {
       }],
     };
   }, [stats.byGender]);
+
+  // Pie options for remaining pie charts
+  const pieOptions = { responsive: true, maintainAspectRatio: false } as const;
 
   // Party Member (Yes/No)
   const memberPieData = useMemo(() => {
@@ -328,17 +332,11 @@ export default function AdminReports() {
                 <div className="h-64"><Pie data={memberPieData} options={pieOptions} /></div>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 gap-6 mb-8">
               <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                 <p className="text-sm text-slate-600">Total Applications</p>
                 <p className="text-2xl font-bold text-slate-900 mt-2">{stats.total}</p>
               </div>
-              {(['pending', 'under_review', 'approved', 'rejected'] as const).map((s) => (
-                <div key={s} className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                  <p className="text-sm text-slate-600">{s.replace('_', ' ').toUpperCase()}</p>
-                  <p className="text-2xl font-bold text-slate-900 mt-2">{stats.byStatus[s] || 0}</p>
-                </div>
-              ))}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -368,14 +366,7 @@ export default function AdminReports() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-slate-900">Status Breakdown</h2>
-                </div>
-                <div className="h-64">
-                  <Pie data={pieData} options={pieOptions} />
-                </div>
-              </div>
+              {/* Status Breakdown removed */}
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mt-6">
@@ -393,11 +384,11 @@ export default function AdminReports() {
 
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mt-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-slate-900">Raw Data (first 1000)</h2>
+                <h2 className="text-lg font-semibold text-slate-900">Raw Data</h2>
                 <button
                   onClick={() => {
                     const headers = ['id','name','phone_number','email','revenue_district','assembly_constituency','application_status','submitted_at'];
-                    const rows = apps.map(a => [a.id, a.name, a.phone_number, a.email || '', a.revenue_district, a.assembly_constituency, a.application_status, a.submitted_at]);
+                    const rows = filtered.map(a => [a.id, a.name, a.phone_number, a.email || '', a.revenue_district, a.assembly_constituency, a.application_status, a.submitted_at]);
                     const csv = [headers, ...rows].map(r => r.map(v => `"${(v ?? '').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
                     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
                     const url = URL.createObjectURL(blob);
@@ -412,6 +403,23 @@ export default function AdminReports() {
                   <FileText className="w-4 h-4" /> Export CSV
                 </button>
               </div>
+              {/* Pagination Controls (top) */}
+              <div className="flex items-center justify-between mb-3 gap-3">
+                <div className="text-sm text-slate-600">
+                  Showing <span className="font-medium">{totalRows === 0 ? 0 : pageStart + 1}</span>–<span className="font-medium">{Math.min(pageStart + pageSize, totalRows)}</span> of <span className="font-medium">{totalRows}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-slate-600">Rows per page</label>
+                  <select value={pageSize} onChange={(e)=>setPageSize(parseInt(e.target.value))} className="px-2 py-1 border border-slate-300 rounded">
+                    {[25,50,100,200].map(sz => <option key={sz} value={sz}>{sz}</option>)}
+                  </select>
+                  <div className="flex items-center gap-1">
+                    <button disabled={safePage === 1} onClick={()=>setCurrentPage(p => Math.max(1, p-1))} className="px-3 py-1 border border-slate-300 rounded disabled:opacity-50">Prev</button>
+                    <span className="text-sm text-slate-600 px-2">Page {safePage} of {totalPages}</span>
+                    <button disabled={safePage === totalPages} onClick={()=>setCurrentPage(p => Math.min(totalPages, p+1))} className="px-3 py-1 border border-slate-300 rounded disabled:opacity-50">Next</button>
+                  </div>
+                </div>
+              </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="bg-slate-50 border-b border-slate-200">
@@ -424,7 +432,7 @@ export default function AdminReports() {
                     </tr>
                   </thead>
                   <tbody>
-                    {apps.map(a => (
+                    {pageItems.map(a => (
                       <tr key={a.id} className="border-b border-slate-100">
                         <td className="px-4 py-2">{a.name}</td>
                         <td className="px-4 py-2">{a.phone_number}</td>
@@ -435,6 +443,17 @@ export default function AdminReports() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+              {/* Pagination Controls (bottom) */}
+              <div className="flex items-center justify-between mt-3 gap-3">
+                <div className="text-sm text-slate-600">
+                  Showing <span className="font-medium">{totalRows === 0 ? 0 : pageStart + 1}</span>–<span className="font-medium">{Math.min(pageStart + pageSize, totalRows)}</span> of <span className="font-medium">{totalRows}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <button disabled={safePage === 1} onClick={()=>setCurrentPage(p => Math.max(1, p-1))} className="px-3 py-1 border border-slate-300 rounded disabled:opacity-50">Prev</button>
+                  <span className="text-sm text-slate-600 px-2">Page {safePage} of {totalPages}</span>
+                  <button disabled={safePage === totalPages} onClick={()=>setCurrentPage(p => Math.min(totalPages, p+1))} className="px-3 py-1 border border-slate-300 rounded disabled:opacity-50">Next</button>
+                </div>
               </div>
             </div>
           </>
