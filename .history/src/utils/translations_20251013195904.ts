@@ -17,7 +17,11 @@ export const translations = {
     
     // Form Header
     becomeAMember: 'Join the Movement',
-    joinDescription: "Be the change you want to see in this world!\n\nJoin the movement that is going to end DMK's dynastic politics and rewrite the future of Tamil Nadu's politics by making AIADMK form the Government in 2026 assembly elections.\n\nLet's shape the future together - join us and be part of history!",
+    joinDescription: "Be the change you want to see in this world! 
+
+Join the movement that is going to end DMK's dynastic politics and rewrite the future of Tamil Nadu's politics by making AIADMK form the Government in 2026 assembly elections.
+
+Let's shape the future together - join us and be part of history!",
     joinMovementToday: 'Join the Movement Today',
     
     // Form Fields
@@ -117,7 +121,7 @@ export const translations = {
     
     // Form Header
     becomeAMember: 'மாற்றத்திற்கான இளைஞராக இணையுங்கள்!',
-    joinDescription: 'உலகில் நீங்கள் காண விரும்பும் மாற்றமாக இருங்கள்!\n\nதிமுகவின் குடும்ப அரசியலுக்கு முற்றுப்புள்ளி வைத்து, 2026-ல் அஇஅதிமுக ஆட்சி \nஅமைக்க அயராது  உழைக்க நினைக்கும் இளைஞர்களே இளம் பெண்களே, இணையுங்கள்!\n\nமாற்றத்திற்கான இளைஞராக மாறுவோம், வரலாறு படைப்போம்',
+    joinDescription: 'உலகில் நீங்கள் காண விரும்பும் மாற்றமாக இருங்கள்!\n\nதமிழ்நாட்டின் எதிர்கால அரசியலை எழுதப்போகும் பயணத்தில் நீங்களும் இணையுங்கள். குடும்ப அரசியலுக்கு எதிரான உங்களின் பங்களிப்பு முன்னேற்றமும் வெளிப்படைத்தன்மையும் கொண்ட புதிய சகாப்தத்திற்கு வித்திடும்.\n\nமாற்றத்திற்கான இளைஞராக மாறுவோம், வரலாறு படைப்போம்',
     joinMovementToday: 'மாற்றத்திற்கான இளைஞராக மாறுவோம்! வரலாறு படைப்போம்!',
     
     // Form Fields

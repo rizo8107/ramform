@@ -16,7 +16,7 @@ export interface MembershipApplication {
   alternate_phone_number?: string;
   name: string;
   email?: string;
-  gender: 'Male' | 'Female';
+  gender: 'Male' | 'Female' | 'Other';
   date_of_birth: string;
   revenue_district: string;
   assembly_constituency: string;

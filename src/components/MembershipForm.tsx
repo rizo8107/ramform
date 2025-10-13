@@ -205,7 +205,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
         alternate_phone_number: formData.alternatePhone ? formData.alternatePhone.replace(/\D/g, '') : undefined,
         name: formData.name,
         email: formData.email || undefined,
-        gender: formData.gender as 'Male' | 'Female',
+        gender: formData.gender as 'Male' | 'Female' | 'Other',
         date_of_birth: formData.dateOfBirth,
         revenue_district: formData.revenueDistrict,
         assembly_constituency: formData.assemblyConstituency,
@@ -444,6 +444,7 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                     <option value="">{t.selectGender}</option>
                     <option value="Male">{t.male}</option>
                     <option value="Female">{t.female}</option>
+                    <option value="Other">{t.other}</option>
                   </select>
                 </div>
 
