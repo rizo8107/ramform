@@ -22,12 +22,13 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
       const saved = localStorage.getItem('app_language');
       if (saved === 'ta' || saved === 'en') return saved as Language;
       const envDefault = (import.meta as ImportMeta).env?.VITE_DEFAULT_LANGUAGE as string | undefined;
-      const fallback = envDefault === 'ta' || envDefault === 'en' ? (envDefault as Language) : 'en';
+      const fallback = envDefault === 'ta' || envDefault === 'en' ? (envDefault as Language) : 'ta';
       return fallback;
     } catch {
-      return 'en';
+      return 'ta';
     }
   });
+
   // reCAPTCHA v3 state
   const [recaptchaReady, setRecaptchaReady] = useState(false);
   const RECAPTCHA_SITE_KEY = '6LdT9uQrAAAAAPOHRKp9XUdI82kBXGgFIodvbDIz';
@@ -38,12 +39,10 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
   useEffect(() => {
     try {
       localStorage.setItem('app_language', language);
-    } catch (e) {
-      console.debug('localStorage unavailable, language not persisted', e);
+    } catch {
+      /* ignore */
     }
   }, [language]);
-
-  // Honor saved choice or env default; no forced migration
 
   // Load Google reCAPTCHA v3
   useEffect(() => {

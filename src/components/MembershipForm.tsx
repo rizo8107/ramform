@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Check } from 'lucide-react';
-import LanguageToggle from './LanguageToggle';
 import TwoLeavesLogo from './TwoLeavesLogo';
+import LanguageToggle from './LanguageToggle';
 import { translations, Language } from '../utils/translations';
 import { whatsappService } from '../services/whatsappAPI';
 import { membershipService } from '../services/membershipService';
@@ -113,18 +113,18 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
       const saved = localStorage.getItem('app_language');
       if (saved === 'ta' || saved === 'en') return saved as Language;
       const envDefault = (import.meta as ImportMeta).env?.VITE_DEFAULT_LANGUAGE as string | undefined;
-      const fallback = envDefault === 'ta' || envDefault === 'en' ? (envDefault as Language) : 'en';
+      const fallback = envDefault === 'ta' || envDefault === 'en' ? (envDefault as Language) : 'ta';
       return fallback;
     } catch {
-      return 'en';
+      return 'ta';
     }
   });
+
   useEffect(() => {
     try {
       localStorage.setItem('app_language', language);
-    } catch (e) {
-      // Ignore storage errors (private mode, disabled storage, etc.)
-      console.debug('localStorage unavailable, language not persisted', e);
+    } catch {
+      /* ignore */
     }
   }, [language]);
 
