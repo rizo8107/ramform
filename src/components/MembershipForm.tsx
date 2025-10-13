@@ -85,6 +85,362 @@ const assemblyConstituencies: Record<string, string[]> = {
   Virudhunagar: ['Rajapalayam','Srivilliputhur','Sattur','Sivakasi','Virudhunagar','Aruppukkottai','Tiruchuli']
 };
 
+// Tamil labels for districts (display only)
+const districtTa: Record<string, string> = {
+  Ariyalur: 'அரியலூர்',
+  Chengalpattu: 'செங்கல்பட்டு',
+  Chennai: 'சென்னை',
+  Coimbatore: 'கோயம்புத்தூர்',
+  Cuddalore: 'கடலூர்',
+  Dharmapuri: 'தர்மபுரி',
+  Dindigul: 'திண்டுக்கல்',
+  Erode: 'ஈரோடு',
+  Kallakurichi: 'கள்ளக்குறிச்சி',
+  Kanchipuram: 'காஞ்சிபுரம்',
+  Kanyakumari: 'கன்னியாகுமரி',
+  Karur: 'கரூர்',
+  Krishnagiri: 'கிருஷ்ணகிரி',
+  Madurai: 'மதுரை',
+  Mayiladuthurai: 'மயிலாடுதுறை',
+  Nagapattinam: 'நாகப்பட்டினம்',
+  Namakkal: 'நாமக்கல்',
+  Nilgiris: 'நீலகிரி',
+  Perambalur: 'பெரம்பலூர்',
+  Pudukkottai: 'புதுக்கோட்டை',
+  Ramanathapuram: 'ராமநாதபுரம்',
+  Ranipet: 'ராணிப்பேட்டை',
+  Salem: 'சேலம்',
+  Sivaganga: 'சிவகங்கை',
+  Tenkasi: 'தென்காசி',
+  Thanjavur: 'தஞ்சாவூர்',
+  Theni: 'தேனி',
+  Thoothukudi: 'தூத்துக்குடி',
+  Tiruchirappalli: 'திருச்சி',
+  Tirunelveli: 'திருநெல்வேலி',
+  Tirupathur: 'திருப்பத்தூர்',
+  Tiruppur: 'திருப்பூர்',
+  Tiruvallur: 'திருவள்ளூர்',
+  Tiruvannamalai: 'திருவண்ணாமலை',
+  Tiruvarur: 'திருவாரூர்',
+  Vellore: 'வேலூர்',
+  Viluppuram: 'விழுப்புரம்',
+  Virudhunagar: 'விருதுநகர்',
+};
+
+// Tamil labels for constituencies by district (display only)
+const constituencyTa: Record<string, Record<string, string>> = {
+  Ariyalur: {
+    Ariyalur: 'அரியலூர்',
+    Jayankondam: 'ஜெயங்கொண்டம்',
+  },
+  Chengalpattu: {
+    Shozhinganallur: 'சோழிங்கநல்லூர்',
+    Pallavaram: 'பல்லாவரம்',
+    Tambaram: 'தாம்பரம்',
+    Chengalpattu: 'செங்கல்பட்டு',
+    Thiruporur: 'திருப்போரூர்',
+    Cheyyur: 'செய்யூர்',
+    Madurantakam: 'மதுராந்தகம்',
+  },
+  Chennai: {
+    'Dr.Radhakrishnan Nagar': 'டாக்டர் ராதாகிருஷ்ணன் நகர்',
+    Perambur: 'பெரம்பூர்',
+    Kolathur: 'கொளத்தூர்',
+    Villivakkam: 'வில்லிவாக்கம்',
+    'Thiru-Vi-Ka-Nagar': 'திரு-வி-க நகர்',
+    Egmore: 'எழும்பூர்',
+    Royapuram: 'ராயபுரம்',
+    Harbour: 'துறைமுகம்',
+    'Chepauk- Thiruvallikeni': 'சேப்பாக்கம்-திருவல்லிக்கேணி',
+    'Thousand Lights': 'ஆயிரம் விளக்கு',
+    'Anna Nagar': 'அண்ணா நகர்',
+    Virugambakkam: 'விருகம்பாக்கம்',
+    Saidapet: 'சைதாப்பேட்டை',
+    Thiyagarayanagar: 'தியாகராய நகர்',
+    Mylapore: 'மயிலாப்பூர்',
+    Velachery: 'வேளச்சேரி',
+  },
+  Coimbatore: {
+    Mettuppalayam: 'மேட்டுப்பாளையம்',
+    Sulur: 'சூலூர்',
+    Kavundampalayam: 'கவுண்டம்பாளையம்',
+    'Coimbatore (North)': 'கோவை வடக்கு',
+    Thondamuthur: 'தொண்டாமுத்தூர்',
+    'Coimbatore (South)': 'கோவை தெற்கு',
+    Singanallur: 'சிங்கநல்லூர்',
+    Kinathukadavu: 'கினாத்துக்கடவு',
+    Pollachi: 'பொள்ளாச்சி',
+    Valparai: 'வால்பாறை',
+  },
+  Cuddalore: {
+    Tittakudi: 'திட்டக்குடி',
+    Vriddhachalam: 'விருத்தாச்சலம்',
+    Neyveli: 'நெய்வேலி',
+    Panruti: 'பண்ருட்டி',
+    Cuddalore: 'கடலூர்',
+    Kurinjipadi: 'குறைஞ்சிப்பாடி',
+    Bhuvanagiri: 'புவனகிரி',
+    Chidambaram: 'சிதம்பரம்',
+    Kattumannarkoil: 'காட்டுமன்னார்கோயில்',
+  },
+  Dharmapuri: {
+    Palacodu: 'பாலக்கோடு',
+    Pennagaram: 'பென்னாகரம்',
+    Dharmapuri: 'தர்மபுரி',
+    Pappireddippatti: 'பாப்பிரெட்டிப்பட்டி',
+    Harur: 'அரூர்',
+  },
+  Dindigul: {
+    Palani: 'பழனி',
+    Oddanchatram: 'ஒட்டன்சத்திரம்',
+    Athoor: 'ஆத்தூர்',
+    Nilakkottai: 'நிலக்கோட்டை',
+    Natham: 'நத்தம்',
+    Dindigul: 'திண்டுக்கல்',
+    Vedasandur: 'வேடசந்தூர்',
+  },
+  Erode: {
+    'Erode (East)': 'ஈரோடு கிழக்கு',
+    'Erode (West)': 'ஈரோடு மேற்கு',
+    Modakkurichi: 'மொடக்குறிச்சி',
+    Perundurai: 'பெருந்துறை',
+    Bhavani: 'பவானி',
+    Anthiyur: 'அந்தியூர்',
+    Gobichettipalayam: 'கோபிச்செட்டிப்பாளையம்',
+    Bhavanisagar: 'பவானிசாகர்',
+  },
+  Kallakurichi: {
+    Ulundurpettai: 'உளுந்தூர்பேட்டை',
+    Rishivandiyam: 'ரிஷிவந்தியம்',
+    Sankarapuram: 'சங்கராபுரம்',
+    Kallakurichi: 'கள்ளக்குறிச்சி',
+  },
+  Kanchipuram: {
+    Alandur: 'ஆலந்தூர்',
+    Sriperumbudur: 'ஸ்ரீபெரும்புதூர்',
+    Uthiramerur: 'உத்திரமேரூர்',
+    Kancheepuram: 'காஞ்சிபுரம்',
+  },
+  Kanyakumari: {
+    Kanniyakumari: 'கன்னியாகுமரி',
+    Nagercoil: 'நாகர்கோவில்',
+    Colachel: 'குளச்சல்',
+    Padmanabhapuram: 'பத்மநாபபுரம்',
+    Vilavancode: 'விளவங்கோடு',
+    Killiyoor: 'கிள்ளியூர்',
+  },
+  Karur: {
+    Aravakurichi: 'அரவக்குறிச்சி',
+    Karur: 'கரூர்',
+    Krishnarayapuram: 'கிருஷ்ணராயபுரம்',
+    Kulithalai: 'குளித்தலை',
+  },
+  Krishnagiri: {
+    Uthangarai: 'ஊத்தங்கரை',
+    Bargur: 'பர்கூர்',
+    Krishnagiri: 'கிருஷ்ணகிரி',
+    Veppanahalli: 'வேப்பனஹள்ளி',
+    Hosur: 'ஓசூர்',
+    Thalli: 'தளி',
+  },
+  Madurai: {
+    Melur: 'மேலூர்',
+    'Madurai East': 'மதுரை கிழக்கு',
+    Sholavandan: 'சோழவந்தான்',
+    'Madurai North': 'மதுரை வடக்கு',
+    'Madurai South': 'மதுரை தெற்கு',
+    'Madurai Central': 'மதுரை மத்தியம்',
+    'Madurai West': 'மதுரை மேற்கு',
+    Thiruparankundram: 'திருப்பரங்குன்றம்',
+    Thirumangalam: 'திருமங்கலம்',
+    Usilampatti: 'உசிலம்பட்டி',
+  },
+  Mayiladuthurai: {
+    Sirkazhi: 'சீர்காழி',
+    Mayiladuthurai: 'மயிலாடுதுறை',
+    Poompuhar: 'பூம்புகார்',
+  },
+  Nagapattinam: {
+    Nagapattinam: 'நாகப்பட்டினம்',
+    Kilvelur: 'கீழ்வேளூர்',
+    Vedaranyam: 'வேதாரண்யம்',
+  },
+  Namakkal: {
+    Rasipuram: 'ராசிபுரம்',
+    Senthamangalam: 'சேந்தமங்கலம்',
+    Namakkal: 'நாமக்கல்',
+    'Paramathi-Velur': 'பரமத்தி-வேலூர்',
+    Tiruchengodu: 'திருச்செங்கோடு',
+    Kumarapalayam: 'குமாரபாளையம்',
+  },
+  Nilgiris: {
+    Udhagamandalam: 'உதகமண்டலம்',
+    Gudalur: 'கூடலூர்',
+    Coonoor: 'குன்னூர்',
+  },
+  Perambalur: {
+    Perambalur: 'பெரம்பலூர்',
+    Kunnam: 'குன்னம்',
+  },
+  Pudukkottai: {
+    Gandharvakottai: 'கந்தர்வக்கோட்டை',
+    Viralimalai: 'விராலிமலை',
+    Pudukkottai: 'புதுக்கோட்டை',
+    Thirumayam: 'திருமயம்',
+    Alangudi: 'ஆலங்குடி',
+    Aranthangi: 'அறந்தாங்கி',
+  },
+  Ramanathapuram: {
+    Paramakudi: 'பரமக்குடி',
+    Tiruvadanai: 'திருவாடனை',
+    Ramanathapuram: 'ராமநாதபுரம்',
+    Mudhukulathur: 'முதுகுளத்தூர்',
+  },
+  Ranipet: {
+    Arakkonam: 'அரக்கோணம்',
+    Sholingur: 'சோளிங்கர்',
+    Ranipet: 'ராணிப்பேட்டை',
+    Arcot: 'ஆற்காடு',
+  },
+  Salem: {
+    Gangavalli: 'கெங்கவல்லி',
+    Attur: 'ஆத்தூர்',
+    Yercaud: 'ஏற்காடு',
+    Omalur: 'ஓமலூர்',
+    Mettur: 'மேட்டூர்',
+    Edappadi: 'எடப்பாடி',
+    Sankari: 'சங்கரி',
+    'Salem (West)': 'சேலம் மேற்கு',
+    'Salem (North)': 'சேலம் வடக்கு',
+    'Salem (South)': 'சேலம் தெற்கு',
+    Veerapandi: 'வீரபாண்டி',
+  },
+  Sivaganga: {
+    Karaikudi: 'காரைக்குடி',
+    Tiruppattur: 'திருப்பத்தூர்',
+    Sivaganga: 'சிவகங்கை',
+    Manamadurai: 'மானாமதுரை',
+  },
+  Tenkasi: {
+    Sankarankovil: 'சங்கரன்கோவில்',
+    Vasudevanallur: 'வாசுதேவநல்லூர்',
+    Kadayanallur: 'கடையநல்லூர்',
+    Tenkasi: 'தென்காசி',
+    Alangulam: 'ஆலங்குளம்',
+  },
+  Thanjavur: {
+    Thiruvidaimarudur: 'திருவிடைமருதூர்',
+    Kumbakonam: 'கும்பகோணம்',
+    Papanasam: 'பாபநாசம்',
+    Thiruvaiyaru: 'திருவையாறு',
+    Thanjavur: 'தஞ்சாவூர்',
+    Orathanadu: 'ஒரத்தநாடு',
+    Pattukkottai: 'பட்டுக்கோட்டை',
+    Peravurani: 'பேராவூரணி',
+  },
+  Theni: {
+    Andipatti: 'ஆண்டிபட்டி',
+    Periyakulam: 'பெரியகுளம்',
+    Bodinayakanur: 'போடிநாயக்கனூர்',
+    Cumbum: 'கம்பம்',
+  },
+  Thoothukudi: {
+    Vilathikulam: 'விளாத்திக்குளம்',
+    Thoothukkudi: 'தூத்துக்குடி',
+    Tiruchendur: 'திருச்செந்தூர்',
+    Srivaikuntam: 'ஸ்ரீவைகுண்டம்',
+    Ottapidaram: 'ஓட்டப்பிடாரம்',
+    Kovilpatti: 'கோவில்பட்டி',
+  },
+  Tiruchirappalli: {
+    Manapparai: 'மணப்பாறை',
+    Srirangam: 'ஸ்ரீரங்கம்',
+    'Tiruchirappalli (West)': 'திருச்சி மேற்கு',
+    'Tiruchirappalli (East)': 'திருச்சி கிழக்கு',
+    Thiruverumbur: 'திருவரம்பூர்',
+    Lalgudi: 'லால்குடி',
+    Manachanallur: 'மண்ணச்சநல்லூர்',
+    Musiri: 'முசிறி',
+    Thuraiyur: 'துறையூர்',
+  },
+  Tirunelveli: {
+    Tirunelveli: 'திருநெல்வேலி',
+    Ambasamudram: 'அம்பாசமுத்திரம்',
+    Palayamkottai: 'பாளையங்கோட்டை',
+    Nanguneri: 'நாங்குநேரி',
+    Radhapuram: 'ராதாபுரம்',
+  },
+  Tirupathur: {
+    Vaniyambadi: 'வாணியம்பாடி',
+    Ambur: 'ஆம்பூர்',
+    Jolarpet: 'ஜோலார்பேட்டை',
+    Tiruppattur: 'திருப்பத்தூர்',
+  },
+  Tiruppur: {
+    Dharapuram: 'தாராபுரம்',
+    Kangayam: 'காங்கேயம்',
+    Avanashi: 'அவிநாசி',
+    'Tiruppur (North)': 'திருப்பூர் வடக்கு',
+    'Tiruppur (South)': 'திருப்பூர் தெற்கு',
+    Palladam: 'பல்லடம்',
+    Udumalaipettai: 'உடுமலைப்பேட்டை',
+    Madathukulam: 'மடத்துக்குளம்',
+  },
+  Tiruvallur: {
+    Gummidipoondi: 'கும்மிடிபூண்டி',
+    Ponneri: 'பொன்னேரி',
+    Tiruttani: 'திருத்தணி',
+    Thiruvallur: 'திருவள்ளூர்',
+    Poonamallee: 'பூந்தமல்லி',
+    Avadi: 'ஆவடி',
+    Maduravoyal: 'மதுரவாயல்',
+    Ambattur: 'அம்பத்தூர்',
+    Madavaram: 'மாதவரம்',
+    Tiruvottiyur: 'திருவொற்றியூர்',
+  },
+  Tiruvannamalai: {
+    Chengam: 'செங்கம்',
+    Tiruvannamalai: 'திருவண்ணாமலை',
+    Kilpennathur: 'கீழ்பெண்ணாத்தூர்',
+    Kalasapakkam: 'கலசபாக்கம்',
+    Polur: 'போளூர்',
+    Arani: 'ஆரணி',
+    Cheyyar: 'செய்யாறு',
+    Vandavasi: 'வந்தவாசி',
+  },
+  Tiruvarur: {
+    Thiruthuraipoondi: 'திருத்துறைப்பூண்டி',
+    Mannargudi: 'மன்னார்குடி',
+    Thiruvarur: 'திருவாரூர்',
+    Nannilam: 'நன்னிலம்',
+  },
+  Vellore: {
+    Katpadi: 'காட்பாடி',
+    Vellore: 'வேலூர்',
+    Anaikattu: 'ஆனைகட்டு',
+    Kilvaithinankuppam: 'கிழவைத்தினங்குப்பம்',
+    Gudiyattam: 'குடியாட்டம்',
+  },
+  Viluppuram: {
+    Gingee: 'செஞ்சி',
+    Mailam: 'மயிலம்',
+    Tindivanam: 'திண்டிவனம்',
+    Vanur: 'வானூர்',
+    Viluppuram: 'விழுப்புரம்',
+    Vikravandi: 'விக்கிரவாண்டி',
+    Tirukkoyilur: 'திருக்கோயிலூர்',
+  },
+  Virudhunagar: {
+    Rajapalayam: 'ராஜபாளையம்',
+    Srivilliputhur: 'ஸ்ரீவில்லிபுத்தூர்',
+    Sattur: 'சாத்தூர்',
+    Sivakasi: 'சிவகாசி',
+    Virudhunagar: 'விருதுநகர்',
+    Aruppukkottai: 'அருப்புக்கோட்டை',
+    Tiruchuli: 'திருச்சு',
+  },
+};
+
 export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -478,9 +834,12 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                     required
                   >
                     <option value="">{t.selectDistrict}</option>
-                    {revenueDistricts.map(district => (
-                      <option key={district} value={district}>{district}</option>
-                    ))}
+                    {revenueDistricts.map(district => {
+                      const label = language === 'ta' ? (districtTa[district] || district) : district;
+                      return (
+                        <option key={district} value={district}>{label}</option>
+                      );
+                    })}
                   </select>
                 </div>
 
@@ -497,9 +856,12 @@ export default function MembershipForm({ phoneNumber }: MembershipFormProps) {
                     disabled={!formData.revenueDistrict}
                   >
                     <option value="">{t.selectConstituency}</option>
-                    {formData.revenueDistrict && assemblyConstituencies[formData.revenueDistrict]?.map(constituency => (
-                      <option key={constituency} value={constituency}>{constituency}</option>
-                    ))}
+                    {formData.revenueDistrict && assemblyConstituencies[formData.revenueDistrict]?.map(constituency => {
+                      const label = language === 'ta' ? (constituencyTa[formData.revenueDistrict]?.[constituency] || constituency) : constituency;
+                      return (
+                        <option key={constituency} value={constituency}>{label}</option>
+                      );
+                    })}
                   </select>
                 </div>
               </div>
