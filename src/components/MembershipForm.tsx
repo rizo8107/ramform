@@ -38,7 +38,7 @@ const revenueDistricts = [
   'Perambalur', 'Pudukkottai', 'Ramanathapuram', 'Ranipet', 'Salem', 'Sivaganga',
   'Tenkasi', 'Thanjavur', 'Theni', 'Thoothukudi', 'Tiruchirappalli', 'Tirunelveli',
   'Tirupathur', 'Tiruppur', 'Tiruvallur', 'Tiruvannamalai', 'Tiruvarur', 'Vellore',
-  'Viluppuram', 'Virudhunagar'
+  'Viluppuram', 'Virudhunagar', 'Puducherry', 'Karaikal'
 ];
 
 const assemblyConstituencies: Record<string, string[]> = {
@@ -46,7 +46,7 @@ const assemblyConstituencies: Record<string, string[]> = {
   Chengalpattu: ['Shozhinganallur', 'Pallavaram', 'Tambaram', 'Chengalpattu', 'Thiruporur', 'Cheyyur', 'Madurantakam'],
   Chennai: [
     'Dr.Radhakrishnan Nagar','Perambur','Kolathur','Villivakkam','Thiru-Vi-Ka-Nagar','Egmore','Royapuram','Harbour',
-    'Chepauk- Thiruvallikeni','Thousand Lights','Anna Nagar','Virugampakkam','Saidapet','Thiyagarayanagar','Mylapore','Velachery'
+    'Chepauk- Thiruvallikeni','Thousand Lights','Anna Nagar','Virugambakkam','Saidapet','Thiyagarayanagar','Mylapore','Velachery'
   ],
   Coimbatore: ['Mettuppalayam','Sulur','Kavundampalayam','Coimbatore (North)','Thondamuthur','Coimbatore (South)','Singanallur','Kinathukadavu','Pollachi','Valparai'],
   Cuddalore: ['Tittakudi','Vriddhachalam','Neyveli','Panruti','Cuddalore','Kurinjipadi','Bhuvanagiri','Chidambaram','Kattumannarkoil'],
@@ -82,7 +82,9 @@ const assemblyConstituencies: Record<string, string[]> = {
   Tiruvarur: ['Thiruthuraipoondi','Mannargudi','Thiruvarur','Nannilam'],
   Vellore: ['Katpadi','Vellore','Anaikattu','Kilvaithinankuppam','Gudiyattam'],
   Viluppuram: ['Gingee','Mailam','Tindivanam','Vanur','Viluppuram','Vikravandi','Tirukkoyilur'],
-  Virudhunagar: ['Rajapalayam','Srivilliputhur','Sattur','Sivakasi','Virudhunagar','Aruppukkottai','Tiruchuli']
+  Virudhunagar: ['Rajapalayam','Srivilliputhur','Sattur','Sivakasi','Virudhunagar','Aruppukkottai','Tiruchuli'],
+  Puducherry: ['Puducherry'],
+  Karaikal: ['Karaikal']
 };
 
 // Tamil labels for districts (display only)
@@ -125,6 +127,8 @@ const districtTa: Record<string, string> = {
   Vellore: 'வேலூர்',
   Viluppuram: 'விழுப்புரம்',
   Virudhunagar: 'விருதுநகர்',
+  Puducherry: 'புதுச்சேரி',
+  Karaikal: 'காரைக்கால்',
 };
 
 // Tamil labels for constituencies by district (display only)
@@ -438,6 +442,12 @@ const constituencyTa: Record<string, Record<string, string>> = {
     Virudhunagar: 'விருதுநகர்',
     Aruppukkottai: 'அருப்புக்கோட்டை',
     Tiruchuli: 'திருச்சு',
+  },
+  Puducherry: {
+    Puducherry: 'புதுச்சேரி',
+  },
+  Karaikal: {
+    Karaikal: 'காரைக்கால்',
   },
 };
 
