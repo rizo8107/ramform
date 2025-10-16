@@ -82,24 +82,13 @@ class WhatsAppService {
         to: formattedPhoneNumber,
         type: 'template',
         template: {
-          name: 'auth2',
+          name: 'code1',
           language: {
             code: 'en'
           },
           components: [
             {
               type: 'body',
-              parameters: [
-                {
-                  type: 'text',
-                  text: otp
-                }
-              ]
-            },
-            {
-              type: 'button',
-              sub_type: 'url',
-              index: '0',
               parameters: [
                 {
                   type: 'text',
