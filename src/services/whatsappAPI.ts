@@ -82,7 +82,7 @@ class WhatsAppService {
         to: formattedPhoneNumber,
         type: 'template',
         template: {
-          name: 'code1',
+          name: 'code2',
           language: {
             code: 'en'
           },
