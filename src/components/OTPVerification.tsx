@@ -22,10 +22,10 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
       const saved = localStorage.getItem('app_language');
       if (saved === 'ta' || saved === 'en') return saved as Language;
       const envDefault = (import.meta as ImportMeta).env?.VITE_DEFAULT_LANGUAGE as string | undefined;
-      const fallback = envDefault === 'ta' || envDefault === 'en' ? (envDefault as Language) : 'ta';
+      const fallback = envDefault === 'ta' || envDefault === 'en' ? (envDefault as Language) : 'en';
       return fallback;
     } catch {
-      return 'ta';
+      return 'en';
     }
   });
 
@@ -320,22 +320,23 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
                     {isVerifying ? 'Verifying...' : 'Verify WhatsApp OTP'}
                   </button>
                   {/* Resend and Support */}
-                  <div className="text-center text-sm text-gray-600">
-                    <div>{t.didntReceiveOTP}</div>
+                  <div className="text-center text-sm text-gray-700">
+                    <div className="font-medium">{t.didntReceiveOTP}</div>
                     <div className="mt-2 flex flex-col sm:flex-row gap-2 justify-center">
                       <button
                         type="button"
                         onClick={handleResendOTP}
-                        disabled={isSendingOTP || !recaptchaReady}
-                        className="inline-flex items-center justify-center px-3 py-2 rounded-md border border-green-600 text-green-700 hover:bg-green-50 disabled:opacity-60"
+                        disabled
+                        aria-hidden="true"
+                        className="hidden inline-flex items-center justify-center px-3 py-2 rounded-md border border-green-600 text-green-700"
                       >
-                        {isSendingOTP ? t.sendingOTP : t.resendOTP}
+                        {t.resendOTP}
                       </button>
                       <a
                         href={`https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent((language === 'en' ? "I didn't receive the OTP for my number: " : 'என் எண்ணிற்கு OTP வரவில்லை: ') + phoneNumber)}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center justify-center px-3 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50"
+                        className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 shadow"
                       >
                         {t.messageUsOnWhatsApp}
                       </a>
