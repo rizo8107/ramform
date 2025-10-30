@@ -14,7 +14,7 @@ export const translations = {
     verifyOTP: 'Verify OTP',
     verifying: 'Verifying...',
     changePhoneNumber: 'Change Phone Number',
-    didntReceiveOTP: "Didn't get OTP?",
+    didntReceiveOTP: "If you didn't receive OTP, click here",
     resendOTP: 'Resend OTP',
     messageUsOnWhatsApp: 'Message us on WhatsApp',
     

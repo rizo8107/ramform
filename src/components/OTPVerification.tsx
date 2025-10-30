@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Phone, ArrowRight, MessageCircle } from 'lucide-react';
+import { Phone, ArrowRight, MessageCircle, ExternalLink } from 'lucide-react';
 import LanguageToggle from './LanguageToggle';
 import TwoLeavesLogo from './TwoLeavesLogo';
 import { translations, Language } from '../utils/translations';
@@ -118,51 +118,6 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
     }
   };
 
-  // Resend OTP handler
-  const handleResendOTP = async () => {
-    if (!phoneNumber || phoneNumber.replace(/\D/g, '').length !== 10) {
-      setError(language === 'en' ? 'Please enter a valid 10-digit phone number' : 'தயவுசெய்து சரியான 10 இலக்க தொலைபேசி எண்ணை உள்ளிடுக');
-      return;
-    }
-    setError('');
-    setIsSendingOTP(true);
-    try {
-      let token = '';
-      // @ts-expect-error grecaptcha is injected by the script
-      if (recaptchaReady && window.grecaptcha) {
-        token = await new Promise<string>((resolve) => {
-          // @ts-expect-error grecaptcha global
-          window.grecaptcha.ready(() => {
-            // @ts-expect-error grecaptcha global
-            window.grecaptcha
-              .execute(RECAPTCHA_SITE_KEY, { action: 'resend_otp' })
-              .then((t: string) => resolve(t))
-              .catch((err: unknown) => {
-                console.error('reCAPTCHA execute failed:', err);
-                resolve('');
-              });
-          });
-        });
-      }
-      if (!token) {
-        setError('reCAPTCHA validation failed. Please try again.');
-        setIsSendingOTP(false);
-        return;
-      }
-      const result = await whatsappService.sendOTP(phoneNumber);
-      if (result.success) {
-        setShowOTPInput(true);
-        if (result.otp) console.log('Demo OTP for testing (resend):', result.otp);
-      } else {
-        setError(result.error || 'Failed to send OTP');
-      }
-    } catch (err) {
-      console.error('Error in handleResendOTP:', err);
-      setError('Network error. Please try again.');
-    } finally {
-      setIsSendingOTP(false);
-    }
-  };
 
   const handleVerifyOTP = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -319,28 +274,17 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
                   >
                     {isVerifying ? 'Verifying...' : 'Verify WhatsApp OTP'}
                   </button>
-                  {/* Resend and Support */}
-                  <div className="text-center text-sm text-gray-700">
-                    <div className="font-medium">{t.didntReceiveOTP}</div>
-                    <div className="mt-2 flex flex-col sm:flex-row gap-2 justify-center">
-                      <button
-                        type="button"
-                        onClick={handleResendOTP}
-                        disabled
-                        aria-hidden="true"
-                        className="hidden inline-flex items-center justify-center px-3 py-2 rounded-md border border-green-600 text-green-700"
-                      >
-                        {t.resendOTP}
-                      </button>
-                      <a
-                        href={`https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent((language === 'en' ? "I didn't receive the OTP for my number: " : 'என் எண்ணிற்கு OTP வரவில்லை: ') + phoneNumber)}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 shadow"
-                      >
-                        {t.messageUsOnWhatsApp}
-                      </a>
-                    </div>
+                  {/* OTP help link */}
+                  <div className="text-center text-sm mt-2">
+                    <a
+                      href={`https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent((language === 'en' ? "I didn't receive the OTP for my number: " : 'என் எண்ணிற்கு OTP வரவில்லை: ') + phoneNumber)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 font-medium text-[#d94153] hover:underline"
+                    >
+                      {t.didntReceiveOTP}
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    </a>
                   </div>
                   <button
                     type="button"
