@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Phone, ArrowRight, MessageCircle } from 'lucide-react';
+import { Phone, ArrowRight, MessageCircle, ExternalLink } from 'lucide-react';
 import LanguageToggle from './LanguageToggle';
 import TwoLeavesLogo from './TwoLeavesLogo';
 import { translations, Language } from '../utils/translations';
@@ -22,16 +22,18 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
       const saved = localStorage.getItem('app_language');
       if (saved === 'ta' || saved === 'en') return saved as Language;
       const envDefault = (import.meta as ImportMeta).env?.VITE_DEFAULT_LANGUAGE as string | undefined;
-      const fallback = envDefault === 'ta' || envDefault === 'en' ? (envDefault as Language) : 'ta';
+      const fallback = envDefault === 'ta' || envDefault === 'en' ? (envDefault as Language) : 'en';
       return fallback;
     } catch {
-      return 'ta';
+      return 'en';
     }
   });
 
   // reCAPTCHA v3 state
   const [recaptchaReady, setRecaptchaReady] = useState(false);
   const RECAPTCHA_SITE_KEY = '6LdT9uQrAAAAAPOHRKp9XUdI82kBXGgFIodvbDIz';
+
+  const SUPPORT_WHATSAPP = '917200624477';
 
   const t = translations[language];
 
@@ -115,6 +117,7 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
       setIsSendingOTP(false);
     }
   };
+
 
   const handleVerifyOTP = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -271,6 +274,18 @@ export default function OTPVerification({ onVerificationSuccess }: OTPVerificati
                   >
                     {isVerifying ? 'Verifying...' : 'Verify WhatsApp OTP'}
                   </button>
+                  {/* OTP help link */}
+                  <div className="text-center text-sm mt-2">
+                    <a
+                      href={`https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent((language === 'en' ? "I didn't receive the OTP for my number: " : 'என் எண்ணிற்கு OTP வரவில்லை: ') + phoneNumber)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 font-medium text-[#d94153] hover:underline"
+                    >
+                      {t.didntReceiveOTP}
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    </a>
+                  </div>
                   <button
                     type="button"
                     onClick={() => {

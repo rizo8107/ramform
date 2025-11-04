@@ -14,6 +14,9 @@ export const translations = {
     verifyOTP: 'Verify OTP',
     verifying: 'Verifying...',
     changePhoneNumber: 'Change Phone Number',
+    didntReceiveOTP: "If you didn't receive OTP, click here",
+    resendOTP: 'Resend OTP',
+    messageUsOnWhatsApp: 'Message us on WhatsApp',
     
     // Form Header
     becomeAMember: 'Join the Movement',
@@ -114,6 +117,9 @@ export const translations = {
     verifyOTP: 'OTP சரிபார்க்கவும்',
     verifying: 'சரிபார்க்கிறது...',
     changePhoneNumber: 'தொலைபேசி எண்ணை மாற்றவும்',
+    didntReceiveOTP: 'OTP வரவில்லையா?',
+    resendOTP: 'OTP மீண்டும் அனுப்பு',
+    messageUsOnWhatsApp: 'WhatsApp-ல் செய்தி அனுப்பவும்',
     
     // Form Header
     becomeAMember: 'மாற்றத்திற்கான இளைஞராக இணையுங்கள்!',
